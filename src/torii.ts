@@ -14,17 +14,36 @@ import {
 	ResponseError,
 	ServerSessionsApi,
 	ServerUsersApi,
-	type UpdateUserRequest,
 } from './generated/index.js';
 import { ToriiApiError, type ToriiClientOptions } from './types.js';
 
 const DEFAULT_API_URL = 'https://api.torii.so';
 
-// Public input types for the public methods. We accept the same shapes
-// the generated `*Request` models declare, but rename for ergonomics
-// and keep the surface independent of generator naming churn.
+// Public input types for the public methods.
+//
+// `CreateUserInput` mirrors the generated shape: optional values, no nulls.
+//
+// `UpdateUserInput` is hand-written to express PATCH tri-state semantics
+// natively in TypeScript via `T | null | undefined`:
+//   - key absent (or `undefined`) → server leaves field alone
+//   - `null`                      → server clears the field
+//   - a value                     → server updates the field
+//
+// `JSON.stringify` drops `undefined` keys but keeps `null`, which is
+// exactly the wire contract the server expects for PATCH bodies — and
+// the generated `UpdateUserRequestToJSON` preserves that distinction
+// for string fields (it copies the value through unchanged).
 export type CreateUserInput = CreateUserRequest;
-export type UpdateUserInput = UpdateUserRequest;
+
+export type UpdateUserInput = {
+	name?: string | null;
+	phone?: string | null;
+	avatarUrl?: string | null;
+	locale?: 'en' | 'da' | null;
+	address?: string | null;
+	/** ISO date string, e.g. "1990-02-15". */
+	dateOfBirth?: string | null;
+};
 
 export type ListUsersOptions = {
 	limit?: number;
@@ -41,16 +60,17 @@ export class UsersClient {
 
 	list(options: ListUsersOptions = {}) {
 		const { limit, cursor, name, email, statuses, createdAfter, createdBefore } = options;
-		return this.api.searchUsers({
-			limit,
-			cursor,
-			// The generated search-body type wraps its fields in tri-state
-			// `PatchValue<>` wrappers (a Kotlin idiom). For the SDK surface we
-			// pass plain values and rely on the server's permissive search
-			// semantics — empty fields are omitted from the filter.
-			// biome-ignore lint/suspicious/noExplicitAny: bridging Kotlin tri-state shape to plain values
-			serverUserSearchRequest: { name, email, statuses, createdAfter, createdBefore } as any,
-		});
+		// Bridge the public string-based options to the generator's typed
+		// search shape: statuses → Set, ISO date strings → Date.
+		const serverUserSearchRequest = {
+			name,
+			email,
+			statuses: statuses == null ? undefined : new Set(statuses),
+			createdAfter: createdAfter == null ? undefined : new Date(createdAfter),
+			createdBefore: createdBefore == null ? undefined : new Date(createdBefore),
+			// biome-ignore lint/suspicious/noExplicitAny: bridges plain strings to the generator's enum-typed Set
+		} as any;
+		return this.api.searchUsers({ limit, cursor, serverUserSearchRequest });
 	}
 
 	get(userId: string) {
@@ -62,7 +82,24 @@ export class UsersClient {
 	}
 
 	update(userId: string, input: UpdateUserInput) {
-		return this.api.updateUser({ userId, updateUserRequest: input });
+		// Bridge our hand-written tri-state shape (T | null | undefined,
+		// with `dateOfBirth` as an ISO string) into the generator's looser
+		// `UpdateUserRequest` shape, converting the date string into a
+		// `Date` so the generated `ToJSON` serializer doesn't choke on
+		// `.toISOString()`. `null` and `undefined` pass through untouched
+		// — JSON.stringify drops `undefined` keys and emits `null`, which
+		// is exactly the PATCH wire contract.
+		const updateUserRequest = {
+			name: input.name,
+			phone: input.phone,
+			avatarUrl: input.avatarUrl,
+			locale: input.locale,
+			address: input.address,
+			dateOfBirth:
+				input.dateOfBirth == null ? input.dateOfBirth : new Date(input.dateOfBirth),
+			// biome-ignore lint/suspicious/noExplicitAny: bridges UpdateUserInput → generator's UpdateUserRequest
+		} as any;
+		return this.api.updateUser({ userId, updateUserRequest });
 	}
 
 	async delete(userId: string): Promise<void> {

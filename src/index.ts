@@ -14,10 +14,14 @@ export {
 export type {
 	CreateUserRequest as ToriiCreateUserInput,
 	CursorPageResponseUserResponse as ToriiCursorPageUser,
-	UpdateUserRequest as ToriiUpdateUserInput,
 	UserResponse as ToriiUser,
 	UserSessionResponse as ToriiSession,
 } from './generated/index.js';
+// `UpdateUserInput` is hand-written (see ./torii.ts) so it can express
+// PATCH tri-state semantics (`T | null | undefined`) natively — the
+// generated `UpdateUserRequest` only models `T | undefined`. Aliased to
+// `ToriiUpdateUserInput` for symmetry with the other Torii* aliases.
+export type { UpdateUserInput as ToriiUpdateUserInput } from './torii.js';
 export {
 	type CreateUserInput,
 	createToriiClient,
