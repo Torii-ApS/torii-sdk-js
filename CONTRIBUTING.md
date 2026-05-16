@@ -15,7 +15,7 @@ For security-sensitive issues (anything that could let an attacker forge or bypa
 ## Development
 
 ```sh
-git clone https://github.com/GOOD-Code-ApS/torii-sdk-js
+git clone https://github.com/Torii-ApS/torii-sdk-js
 cd torii-sdk-js
 bun install
 bun run typecheck

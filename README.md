@@ -2,7 +2,7 @@
 
 Backend SDK for [torii](https://torii.so) — verify end-user JWTs without a per-request round trip, manage users from your Node server, react to events from torii.
 
-> **Status: 0.0.x preview.** Surface is stable for the verify + users + sessions path; outbound webhooks (`verifyWebhook`) is a stub that throws until torii's webhook subsystem ships (tracked in [GOOD-Code-ApS/torii#424](https://github.com/GOOD-Code-ApS/torii/issues/424) Phase 0.5).
+> **Status: 0.0.x preview.** Surface is stable for the verify + users + sessions path; outbound webhooks (`verifyWebhook`) is a stub that throws until torii's webhook subsystem ships (tracked in [Torii-ApS/torii#424](https://github.com/Torii-ApS/torii/issues/424) Phase 0.5).
 
 ## Install
 
@@ -78,7 +78,7 @@ app.post("/webhooks/torii", express.raw({ type: "*/*" }), async (req, res) => {
 });
 ```
 
-> Currently throws. Awaiting [GOOD-Code-ApS/torii#424](https://github.com/GOOD-Code-ApS/torii/issues/424) Phase 0.5 (outbound webhook subsystem).
+> Currently throws. Awaiting [Torii-ApS/torii#424](https://github.com/Torii-ApS/torii/issues/424) Phase 0.5 (outbound webhook subsystem).
 
 ## License
 
