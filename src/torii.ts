@@ -3,10 +3,9 @@
 // see ergonomic methods instead of the generator's verbose
 // `requestParameters`-wrapped signatures.
 //
-// Per the design philosophy in #424: types + endpoints are generated
-// from `spec/server-v1.json`; we hand-write only the wrapper + the auth
-// helpers. When the spec grows, regenerate, then add a one-line wrapper
-// method here per new endpoint.
+// Types and endpoints are generated from `spec/server-v1.json`; only the
+// wrapper + auth helpers are hand-written. When the spec grows, regenerate
+// and add a one-line wrapper method per new endpoint.
 
 import {
 	Configuration,

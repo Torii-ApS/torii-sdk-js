@@ -1,10 +1,7 @@
-// Webhook signature verification. torii's outbound webhook subsystem is
-// being designed under #424 Phase 0.5; we ship a placeholder here so the
-// public SDK surface is stable when webhooks land — adopting this signature
-// won't be a breaking change for SDK users.
-//
-// Once 0.5 lands with the final signing scheme (Svix-compatible HMAC or
-// homegrown), this function becomes the real verifier.
+// Webhook signature verification. torii's outbound webhook subsystem is not
+// yet available; we ship a placeholder here so the public SDK surface is
+// stable when webhooks land — adopting this signature won't be a breaking
+// change for SDK users.
 
 import { ToriiAuthError } from './types.js';
 
@@ -32,8 +29,6 @@ export type WebhookEvent = {
 
 export async function verifyWebhook(_options: VerifyWebhookOptions): Promise<WebhookEvent> {
 	throw new ToriiAuthError(
-		"verifyWebhook: torii's outbound webhook subsystem has not shipped yet. " +
-			"This stub keeps the SDK surface stable so adopting it later doesn't break callers. " +
-			'Track progress on GitHub issue #424 (Phase 0.5).',
+		"verifyWebhook: torii's outbound webhook subsystem is not yet available.",
 	);
 }
