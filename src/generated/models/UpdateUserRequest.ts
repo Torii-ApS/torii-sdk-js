@@ -14,47 +14,47 @@
 
 import { mapValues } from '../runtime';
 /**
- * 
+ * PATCH body for updating an end-user. Every field is tri-state: omit the key entirely to leave the field unchanged, send a non-null value to set it, or send JSON null to clear it.
  * @export
  * @interface UpdateUserRequest
  */
 export interface UpdateUserRequest {
     /**
-     * 
+     * New display name. Send null to clear; omit to leave unchanged.
      * @type {string}
      * @memberof UpdateUserRequest
      */
-    name?: string;
+    name?: string | null;
     /**
-     * 
+     * New phone number. Send null to clear; omit to leave unchanged.
      * @type {string}
      * @memberof UpdateUserRequest
      */
-    phone?: string;
+    phone?: string | null;
     /**
-     * 
+     * New avatar URL. Send null to clear; omit to leave unchanged.
      * @type {string}
      * @memberof UpdateUserRequest
      */
-    avatarUrl?: string;
+    avatarUrl?: string | null;
     /**
-     * 
+     * New preferred locale. Send null to clear; omit to leave unchanged.
      * @type {UpdateUserRequestLocaleEnum}
      * @memberof UpdateUserRequest
      */
-    locale?: UpdateUserRequestLocaleEnum;
+    locale?: UpdateUserRequestLocaleEnum | null;
     /**
-     * 
+     * New postal address. Send null to clear; omit to leave unchanged.
      * @type {string}
      * @memberof UpdateUserRequest
      */
-    address?: string;
+    address?: string | null;
     /**
-     * 
+     * New date of birth (YYYY-MM-DD). Send null to clear; omit to leave unchanged.
      * @type {Date}
      * @memberof UpdateUserRequest
      */
-    dateOfBirth?: Date;
+    dateOfBirth?: Date | null;
 }
 
 

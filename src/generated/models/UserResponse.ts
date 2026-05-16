@@ -14,85 +14,85 @@
 
 import { mapValues } from '../runtime';
 /**
- * 
+ * An end-user belonging to one of your environments.
  * @export
  * @interface UserResponse
  */
 export interface UserResponse {
     /**
-     * 
+     * Unique identifier for this user.
      * @type {string}
      * @memberof UserResponse
      */
     id: string;
     /**
-     * 
+     * Identifier of the environment this user belongs to.
      * @type {string}
      * @memberof UserResponse
      */
     environmentId: string;
     /**
-     * 
+     * Full name on the profile, if any.
      * @type {string}
      * @memberof UserResponse
      */
     name?: string | null;
     /**
-     * 
+     * Phone number on the profile, if any. Not guaranteed to be verified.
      * @type {string}
      * @memberof UserResponse
      */
     phone?: string | null;
     /**
-     * 
+     * URL of the user's avatar image, if any.
      * @type {string}
      * @memberof UserResponse
      */
     avatarUrl?: string | null;
     /**
-     * 
+     * Preferred locale for emails and UI messages.
      * @type {UserResponseLocaleEnum}
      * @memberof UserResponse
      */
     locale?: UserResponseLocaleEnum | null;
     /**
-     * 
+     * Free-form address string, if provided.
      * @type {string}
      * @memberof UserResponse
      */
     address?: string | null;
     /**
-     * 
+     * Date of birth in ISO-8601 (YYYY-MM-DD), if provided.
      * @type {Date}
      * @memberof UserResponse
      */
     dateOfBirth?: Date | null;
     /**
-     * 
+     * Lifecycle status of the user (e.g. active, banned).
      * @type {UserResponseStatusEnum}
      * @memberof UserResponse
      */
     status: UserResponseStatusEnum;
     /**
-     * 
+     * When this user was created (ISO-8601 UTC).
      * @type {Date}
      * @memberof UserResponse
      */
     createdAt: Date;
     /**
-     * 
+     * When this user was last modified (ISO-8601 UTC).
      * @type {Date}
      * @memberof UserResponse
      */
     updatedAt: Date;
     /**
-     * 
+     * Primary email on the profile, if any. Not guaranteed to be verified.
      * @type {string}
      * @memberof UserResponse
      */
     email?: string | null;
     /**
-     * 
+     * When this user was deleted, if soft-deleted. Null for active users.
      * @type {Date}
      * @memberof UserResponse
      */

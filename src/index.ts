@@ -14,6 +14,7 @@ export {
 export type {
 	CreateUserRequest as ToriiCreateUserInput,
 	CursorPageResponseUserResponse as ToriiCursorPageUser,
+	ProblemDetail as ToriiProblemDetail,
 	UserResponse as ToriiUser,
 	UserSessionResponse as ToriiSession,
 } from './generated/index.js';

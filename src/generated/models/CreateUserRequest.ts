@@ -14,43 +14,43 @@
 
 import { mapValues } from '../runtime';
 /**
- * 
+ * Request body for creating an end-user in your environment. All fields are optional; supply at minimum an email if you want the user to be able to sign in via email + password.
  * @export
  * @interface CreateUserRequest
  */
 export interface CreateUserRequest {
     /**
-     * 
+     * Primary email for the new user. If omitted, the user is created without a sign-in identity.
      * @type {string}
      * @memberof CreateUserRequest
      */
     email?: string | null;
     /**
-     * 
+     * Initial password. Subject to the environment's password policy. Omit to create a passwordless user (e.g. social-only).
      * @type {string}
      * @memberof CreateUserRequest
      */
     password?: string | null;
     /**
-     * 
+     * Display name to seed on the profile.
      * @type {string}
      * @memberof CreateUserRequest
      */
     name?: string | null;
     /**
-     * 
+     * Phone number to seed on the profile.
      * @type {string}
      * @memberof CreateUserRequest
      */
     phone?: string | null;
     /**
-     * 
+     * Postal address to seed on the profile.
      * @type {string}
      * @memberof CreateUserRequest
      */
     address?: string | null;
     /**
-     * 
+     * Date of birth in ISO-8601 (YYYY-MM-DD).
      * @type {Date}
      * @memberof CreateUserRequest
      */

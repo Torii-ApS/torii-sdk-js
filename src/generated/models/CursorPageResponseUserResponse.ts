@@ -22,25 +22,25 @@ import {
 } from './UserResponse';
 
 /**
- * 
+ * A single page of results in a cursor-paginated list. Pass `nextCursor` as the `cursor` query parameter to fetch the following page.
  * @export
  * @interface CursorPageResponseUserResponse
  */
 export interface CursorPageResponseUserResponse {
     /**
-     * 
+     * Items in this page, in stable order.
      * @type {Array<UserResponse>}
      * @memberof CursorPageResponseUserResponse
      */
     items: Array<UserResponse>;
     /**
-     * 
+     * Cursor to pass to fetch the next page. Null when this is the last page.
      * @type {string}
      * @memberof CursorPageResponseUserResponse
      */
     nextCursor?: string | null;
     /**
-     * 
+     * True if more pages are available (equivalent to `nextCursor != null`).
      * @type {boolean}
      * @memberof CursorPageResponseUserResponse
      */
