@@ -63,6 +63,24 @@ await torii.sessions.revokeAllForUser(user.id);
 
 Default base URL is `https://api.torii.so`. Override with `apiUrl` for staging or self-hosted.
 
+### PATCH semantics
+
+`torii.users.update()` takes a partial body where each field is tri-state — `T | null | undefined`:
+
+```ts
+await torii.users.update(userId, {
+  name: "Ada",        // → server updates name
+  phone: null,        // → server clears phone
+  // address absent  → server leaves address alone
+});
+```
+
+- A **value** (e.g. `"Ada"`) updates the field.
+- `null` **clears** the field.
+- `undefined` (or omitting the key) leaves the field alone.
+
+This works because `JSON.stringify` drops `undefined` keys but emits `null` — which is exactly the wire contract the server expects for PATCH bodies.
+
 ## Verify outbound webhooks
 
 ```ts
