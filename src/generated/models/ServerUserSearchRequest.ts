@@ -14,37 +14,37 @@
 
 import { mapValues } from '../runtime';
 /**
- * 
+ * Optional filter body for `POST /users/search`. Every field is tri-state: omit to skip that filter, send a value to require it, send JSON null to require null.
  * @export
  * @interface ServerUserSearchRequest
  */
 export interface ServerUserSearchRequest {
     /**
-     * 
+     * Filter by name (exact match). Send null to require users with no name.
      * @type {string}
      * @memberof ServerUserSearchRequest
      */
-    name?: string;
+    name?: string | null;
     /**
-     * 
+     * Filter by primary email (exact match). Send null to require users with no email.
      * @type {string}
      * @memberof ServerUserSearchRequest
      */
-    email?: string;
+    email?: string | null;
     /**
-     * 
+     * Filter by user status. Returns users matching any of the supplied statuses.
      * @type {Set<ServerUserSearchRequestStatusesEnum>}
      * @memberof ServerUserSearchRequest
      */
     statuses?: Set<ServerUserSearchRequestStatusesEnum>;
     /**
-     * 
+     * Only return users created at or after this instant (ISO-8601 UTC).
      * @type {Date}
      * @memberof ServerUserSearchRequest
      */
     createdAfter?: Date | null;
     /**
-     * 
+     * Only return users created at or before this instant (ISO-8601 UTC).
      * @type {Date}
      * @memberof ServerUserSearchRequest
      */

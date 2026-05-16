@@ -24,6 +24,11 @@ import {
     CursorPageResponseUserResponseToJSON,
 } from '../models/CursorPageResponseUserResponse';
 import {
+    type ProblemDetail,
+    ProblemDetailFromJSON,
+    ProblemDetailToJSON,
+} from '../models/ProblemDetail';
+import {
     type ServerUserSearchRequest,
     ServerUserSearchRequestFromJSON,
     ServerUserSearchRequestToJSON,
@@ -79,16 +84,16 @@ export interface UpdateUserOperationRequest {
 export interface ServerUsersApiInterface {
     /**
      * Creates request options for banUser without sending the request
-     * @param {string} userId 
+     * @param {string} userId Identifier of the user to ban.
      * @throws {RequiredError}
      * @memberof ServerUsersApiInterface
      */
     banUserRequestOpts(requestParameters: BanUserRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * 
+     * Marks the user as banned and revokes all their active sessions.
      * @summary Ban user
-     * @param {string} userId 
+     * @param {string} userId Identifier of the user to ban.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServerUsersApiInterface
@@ -96,6 +101,7 @@ export interface ServerUsersApiInterface {
     banUserRaw(requestParameters: BanUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserResponse>>;
 
     /**
+     * Marks the user as banned and revokes all their active sessions.
      * Ban user
      */
     banUser(requestParameters: BanUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserResponse>;
@@ -109,7 +115,7 @@ export interface ServerUsersApiInterface {
     createUserRequestOpts(requestParameters: CreateUserOperationRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * 
+     * Creates an end-user in your environment. All body fields are optional; supply at minimum an email if you want the user to be able to sign in via email + password.
      * @summary Create user
      * @param {CreateUserRequest} createUserRequest 
      * @param {*} [options] Override http request option.
@@ -119,22 +125,23 @@ export interface ServerUsersApiInterface {
     createUserRaw(requestParameters: CreateUserOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserResponse>>;
 
     /**
+     * Creates an end-user in your environment. All body fields are optional; supply at minimum an email if you want the user to be able to sign in via email + password.
      * Create user
      */
     createUser(requestParameters: CreateUserOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserResponse>;
 
     /**
      * Creates request options for deleteUser without sending the request
-     * @param {string} userId 
+     * @param {string} userId Identifier of the user to delete.
      * @throws {RequiredError}
      * @memberof ServerUsersApiInterface
      */
     deleteUserRequestOpts(requestParameters: DeleteUserRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * 
+     * Soft-deletes the user. Idempotent: returns 204 even if the user was already deleted.
      * @summary Delete user
-     * @param {string} userId 
+     * @param {string} userId Identifier of the user to delete.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServerUsersApiInterface
@@ -142,22 +149,23 @@ export interface ServerUsersApiInterface {
     deleteUserRaw(requestParameters: DeleteUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
 
     /**
+     * Soft-deletes the user. Idempotent: returns 204 even if the user was already deleted.
      * Delete user
      */
     deleteUser(requestParameters: DeleteUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
     /**
      * Creates request options for getUser without sending the request
-     * @param {string} userId 
+     * @param {string} userId Identifier of the user to fetch.
      * @throws {RequiredError}
      * @memberof ServerUsersApiInterface
      */
     getUserRequestOpts(requestParameters: GetUserRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * 
+     * Returns the full profile for one end-user.
      * @summary Get user
-     * @param {string} userId 
+     * @param {string} userId Identifier of the user to fetch.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServerUsersApiInterface
@@ -165,14 +173,15 @@ export interface ServerUsersApiInterface {
     getUserRaw(requestParameters: GetUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserResponse>>;
 
     /**
+     * Returns the full profile for one end-user.
      * Get user
      */
     getUser(requestParameters: GetUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserResponse>;
 
     /**
      * Creates request options for searchUsers without sending the request
-     * @param {number} [limit] 
-     * @param {string} [cursor] 
+     * @param {number} [limit] Maximum number of items in the returned page (default 20).
+     * @param {string} [cursor] Opaque cursor returned by the previous page\&#39;s &#x60;nextCursor&#x60;. Omit to fetch the first page.
      * @param {ServerUserSearchRequest} [serverUserSearchRequest] 
      * @throws {RequiredError}
      * @memberof ServerUsersApiInterface
@@ -180,10 +189,10 @@ export interface ServerUsersApiInterface {
     searchUsersRequestOpts(requestParameters: SearchUsersRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * 
+     * Returns a cursor-paginated page of end-users in the environment matching the optional filters. Filters use the same tri-state PATCH semantics as `UpdateUserRequest`: omit a field to skip that filter, send a value to require it, send null to require null. Uses POST so the filter body can be sent without URL-encoding.
      * @summary Search users
-     * @param {number} [limit] 
-     * @param {string} [cursor] 
+     * @param {number} [limit] Maximum number of items in the returned page (default 20).
+     * @param {string} [cursor] Opaque cursor returned by the previous page\&#39;s &#x60;nextCursor&#x60;. Omit to fetch the first page.
      * @param {ServerUserSearchRequest} [serverUserSearchRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -192,22 +201,23 @@ export interface ServerUsersApiInterface {
     searchUsersRaw(requestParameters: SearchUsersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CursorPageResponseUserResponse>>;
 
     /**
+     * Returns a cursor-paginated page of end-users in the environment matching the optional filters. Filters use the same tri-state PATCH semantics as `UpdateUserRequest`: omit a field to skip that filter, send a value to require it, send null to require null. Uses POST so the filter body can be sent without URL-encoding.
      * Search users
      */
     searchUsers(requestParameters: SearchUsersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CursorPageResponseUserResponse>;
 
     /**
      * Creates request options for unbanUser without sending the request
-     * @param {string} userId 
+     * @param {string} userId Identifier of the user to unban.
      * @throws {RequiredError}
      * @memberof ServerUsersApiInterface
      */
     unbanUserRequestOpts(requestParameters: UnbanUserRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * 
+     * Reverses a previous ban. The user can sign in again on next request.
      * @summary Unban user
-     * @param {string} userId 
+     * @param {string} userId Identifier of the user to unban.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServerUsersApiInterface
@@ -215,13 +225,14 @@ export interface ServerUsersApiInterface {
     unbanUserRaw(requestParameters: UnbanUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserResponse>>;
 
     /**
+     * Reverses a previous ban. The user can sign in again on next request.
      * Unban user
      */
     unbanUser(requestParameters: UnbanUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserResponse>;
 
     /**
      * Creates request options for updateUser without sending the request
-     * @param {string} userId 
+     * @param {string} userId Identifier of the user to update.
      * @param {UpdateUserRequest} updateUserRequest 
      * @throws {RequiredError}
      * @memberof ServerUsersApiInterface
@@ -229,9 +240,9 @@ export interface ServerUsersApiInterface {
     updateUserRequestOpts(requestParameters: UpdateUserOperationRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * 
+     * Partial update with tri-state PATCH semantics. Every field in `UpdateUserRequest` is tri-state: omit the key to leave the field unchanged, send a non-null value to set it, or send JSON null to clear it.
      * @summary Update user
-     * @param {string} userId 
+     * @param {string} userId Identifier of the user to update.
      * @param {UpdateUserRequest} updateUserRequest 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -240,6 +251,7 @@ export interface ServerUsersApiInterface {
     updateUserRaw(requestParameters: UpdateUserOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserResponse>>;
 
     /**
+     * Partial update with tri-state PATCH semantics. Every field in `UpdateUserRequest` is tri-state: omit the key to leave the field unchanged, send a non-null value to set it, or send JSON null to clear it.
      * Update user
      */
     updateUser(requestParameters: UpdateUserOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserResponse>;
@@ -279,6 +291,7 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
     }
 
     /**
+     * Marks the user as banned and revokes all their active sessions.
      * Ban user
      */
     async banUserRaw(requestParameters: BanUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserResponse>> {
@@ -289,6 +302,7 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
     }
 
     /**
+     * Marks the user as banned and revokes all their active sessions.
      * Ban user
      */
     async banUser(requestParameters: BanUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserResponse> {
@@ -326,6 +340,7 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
     }
 
     /**
+     * Creates an end-user in your environment. All body fields are optional; supply at minimum an email if you want the user to be able to sign in via email + password.
      * Create user
      */
     async createUserRaw(requestParameters: CreateUserOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserResponse>> {
@@ -336,6 +351,7 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
     }
 
     /**
+     * Creates an end-user in your environment. All body fields are optional; supply at minimum an email if you want the user to be able to sign in via email + password.
      * Create user
      */
     async createUser(requestParameters: CreateUserOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserResponse> {
@@ -371,6 +387,7 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
     }
 
     /**
+     * Soft-deletes the user. Idempotent: returns 204 even if the user was already deleted.
      * Delete user
      */
     async deleteUserRaw(requestParameters: DeleteUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
@@ -381,6 +398,7 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
     }
 
     /**
+     * Soft-deletes the user. Idempotent: returns 204 even if the user was already deleted.
      * Delete user
      */
     async deleteUser(requestParameters: DeleteUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
@@ -415,6 +433,7 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
     }
 
     /**
+     * Returns the full profile for one end-user.
      * Get user
      */
     async getUserRaw(requestParameters: GetUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserResponse>> {
@@ -425,6 +444,7 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
     }
 
     /**
+     * Returns the full profile for one end-user.
      * Get user
      */
     async getUser(requestParameters: GetUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserResponse> {
@@ -463,6 +483,7 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
     }
 
     /**
+     * Returns a cursor-paginated page of end-users in the environment matching the optional filters. Filters use the same tri-state PATCH semantics as `UpdateUserRequest`: omit a field to skip that filter, send a value to require it, send null to require null. Uses POST so the filter body can be sent without URL-encoding.
      * Search users
      */
     async searchUsersRaw(requestParameters: SearchUsersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CursorPageResponseUserResponse>> {
@@ -473,6 +494,7 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
     }
 
     /**
+     * Returns a cursor-paginated page of end-users in the environment matching the optional filters. Filters use the same tri-state PATCH semantics as `UpdateUserRequest`: omit a field to skip that filter, send a value to require it, send null to require null. Uses POST so the filter body can be sent without URL-encoding.
      * Search users
      */
     async searchUsers(requestParameters: SearchUsersRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CursorPageResponseUserResponse> {
@@ -508,6 +530,7 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
     }
 
     /**
+     * Reverses a previous ban. The user can sign in again on next request.
      * Unban user
      */
     async unbanUserRaw(requestParameters: UnbanUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserResponse>> {
@@ -518,6 +541,7 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
     }
 
     /**
+     * Reverses a previous ban. The user can sign in again on next request.
      * Unban user
      */
     async unbanUser(requestParameters: UnbanUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserResponse> {
@@ -563,6 +587,7 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
     }
 
     /**
+     * Partial update with tri-state PATCH semantics. Every field in `UpdateUserRequest` is tri-state: omit the key to leave the field unchanged, send a non-null value to set it, or send JSON null to clear it.
      * Update user
      */
     async updateUserRaw(requestParameters: UpdateUserOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserResponse>> {
@@ -573,6 +598,7 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
     }
 
     /**
+     * Partial update with tri-state PATCH semantics. Every field in `UpdateUserRequest` is tri-state: omit the key to leave the field unchanged, send a non-null value to set it, or send JSON null to clear it.
      * Update user
      */
     async updateUser(requestParameters: UpdateUserOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserResponse> {

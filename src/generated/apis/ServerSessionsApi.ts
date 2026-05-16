@@ -14,6 +14,11 @@
 
 import * as runtime from '../runtime';
 import {
+    type ProblemDetail,
+    ProblemDetailFromJSON,
+    ProblemDetailToJSON,
+} from '../models/ProblemDetail';
+import {
     type UserSessionResponse,
     UserSessionResponseFromJSON,
     UserSessionResponseToJSON,
@@ -41,16 +46,16 @@ export interface RevokeSessionRequest {
 export interface ServerSessionsApiInterface {
     /**
      * Creates request options for listSessions without sending the request
-     * @param {string} userId 
+     * @param {string} userId Identifier of the user whose sessions to list.
      * @throws {RequiredError}
      * @memberof ServerSessionsApiInterface
      */
     listSessionsRequestOpts(requestParameters: ListSessionsRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * 
+     * Returns all active (unexpired, unrevoked) sessions for the user, ordered by most recently used.
      * @summary List user sessions
-     * @param {string} userId 
+     * @param {string} userId Identifier of the user whose sessions to list.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServerSessionsApiInterface
@@ -58,22 +63,23 @@ export interface ServerSessionsApiInterface {
     listSessionsRaw(requestParameters: ListSessionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<UserSessionResponse>>>;
 
     /**
+     * Returns all active (unexpired, unrevoked) sessions for the user, ordered by most recently used.
      * List user sessions
      */
     listSessions(requestParameters: ListSessionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<UserSessionResponse>>;
 
     /**
      * Creates request options for revokeAllSessions without sending the request
-     * @param {string} userId 
+     * @param {string} userId Identifier of the user whose sessions to revoke.
      * @throws {RequiredError}
      * @memberof ServerSessionsApiInterface
      */
     revokeAllSessionsRequestOpts(requestParameters: RevokeAllSessionsRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * 
+     * Immediately revokes every active session for the user. Idempotent.
      * @summary Revoke all sessions
-     * @param {string} userId 
+     * @param {string} userId Identifier of the user whose sessions to revoke.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServerSessionsApiInterface
@@ -81,24 +87,25 @@ export interface ServerSessionsApiInterface {
     revokeAllSessionsRaw(requestParameters: RevokeAllSessionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
 
     /**
+     * Immediately revokes every active session for the user. Idempotent.
      * Revoke all sessions
      */
     revokeAllSessions(requestParameters: RevokeAllSessionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
     /**
      * Creates request options for revokeSession without sending the request
-     * @param {string} userId 
-     * @param {string} sessionId 
+     * @param {string} userId Identifier of the user who owns the session.
+     * @param {string} sessionId Identifier of the session to revoke.
      * @throws {RequiredError}
      * @memberof ServerSessionsApiInterface
      */
     revokeSessionRequestOpts(requestParameters: RevokeSessionRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * 
+     * Revokes a single session by id. Idempotent: returns 204 even if the session was already revoked or expired.
      * @summary Revoke specific session
-     * @param {string} userId 
-     * @param {string} sessionId 
+     * @param {string} userId Identifier of the user who owns the session.
+     * @param {string} sessionId Identifier of the session to revoke.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServerSessionsApiInterface
@@ -106,6 +113,7 @@ export interface ServerSessionsApiInterface {
     revokeSessionRaw(requestParameters: RevokeSessionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
 
     /**
+     * Revokes a single session by id. Idempotent: returns 204 even if the session was already revoked or expired.
      * Revoke specific session
      */
     revokeSession(requestParameters: RevokeSessionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
@@ -145,6 +153,7 @@ export class ServerSessionsApi extends runtime.BaseAPI implements ServerSessions
     }
 
     /**
+     * Returns all active (unexpired, unrevoked) sessions for the user, ordered by most recently used.
      * List user sessions
      */
     async listSessionsRaw(requestParameters: ListSessionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<UserSessionResponse>>> {
@@ -155,6 +164,7 @@ export class ServerSessionsApi extends runtime.BaseAPI implements ServerSessions
     }
 
     /**
+     * Returns all active (unexpired, unrevoked) sessions for the user, ordered by most recently used.
      * List user sessions
      */
     async listSessions(requestParameters: ListSessionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<UserSessionResponse>> {
@@ -190,6 +200,7 @@ export class ServerSessionsApi extends runtime.BaseAPI implements ServerSessions
     }
 
     /**
+     * Immediately revokes every active session for the user. Idempotent.
      * Revoke all sessions
      */
     async revokeAllSessionsRaw(requestParameters: RevokeAllSessionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
@@ -200,6 +211,7 @@ export class ServerSessionsApi extends runtime.BaseAPI implements ServerSessions
     }
 
     /**
+     * Immediately revokes every active session for the user. Idempotent.
      * Revoke all sessions
      */
     async revokeAllSessions(requestParameters: RevokeAllSessionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
@@ -242,6 +254,7 @@ export class ServerSessionsApi extends runtime.BaseAPI implements ServerSessions
     }
 
     /**
+     * Revokes a single session by id. Idempotent: returns 204 even if the session was already revoked or expired.
      * Revoke specific session
      */
     async revokeSessionRaw(requestParameters: RevokeSessionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
@@ -252,6 +265,7 @@ export class ServerSessionsApi extends runtime.BaseAPI implements ServerSessions
     }
 
     /**
+     * Revokes a single session by id. Idempotent: returns 204 even if the session was already revoked or expired.
      * Revoke specific session
      */
     async revokeSession(requestParameters: RevokeSessionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {

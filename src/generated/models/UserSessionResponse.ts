@@ -14,55 +14,55 @@
 
 import { mapValues } from '../runtime';
 /**
- * 
+ * An active end-user session in your environment.
  * @export
  * @interface UserSessionResponse
  */
 export interface UserSessionResponse {
     /**
-     * 
+     * Unique identifier for this session.
      * @type {string}
      * @memberof UserSessionResponse
      */
     id: string;
     /**
-     * 
+     * Identifier of the end-user this session belongs to.
      * @type {string}
      * @memberof UserSessionResponse
      */
     userId: string;
     /**
-     * 
+     * Identifier of the environment this session belongs to.
      * @type {string}
      * @memberof UserSessionResponse
      */
     environmentId: string;
     /**
-     * 
+     * Raw User-Agent string captured when the session was created.
      * @type {string}
      * @memberof UserSessionResponse
      */
     userAgent?: string | null;
     /**
-     * 
+     * IP address captured when the session was created.
      * @type {string}
      * @memberof UserSessionResponse
      */
     ipAddress?: string | null;
     /**
-     * 
+     * When this session was created (ISO-8601 UTC).
      * @type {Date}
      * @memberof UserSessionResponse
      */
     createdAt: Date;
     /**
-     * 
+     * When this session expires (ISO-8601 UTC).
      * @type {Date}
      * @memberof UserSessionResponse
      */
     expiresAt: Date;
     /**
-     * 
+     * When this session was last seen by the API (ISO-8601 UTC).
      * @type {Date}
      * @memberof UserSessionResponse
      */
