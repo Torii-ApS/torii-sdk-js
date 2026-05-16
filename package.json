@@ -1,0 +1,53 @@
+{
+	"name": "@torii-ts/backend",
+	"version": "0.0.1",
+	"description": "Backend SDK for torii — verify JWTs, manage users, react to events from your Node server.",
+	"type": "module",
+	"main": "src/index.ts",
+	"types": "src/index.ts",
+	"exports": {
+		".": "./src/index.ts",
+		"./express": "./src/express.ts"
+	},
+	"files": ["src/", "dist/"],
+	"scripts": {
+		"typecheck": "tsc --noEmit",
+		"test": "bun test"
+	},
+	"publishConfig": {
+		"main": "./dist/index.js",
+		"types": "./dist/index.d.ts",
+		"exports": {
+			".": {
+				"types": "./dist/index.d.ts",
+				"import": "./dist/index.js"
+			},
+			"./express": {
+				"types": "./dist/express.d.ts",
+				"import": "./dist/express.js"
+			}
+		}
+	},
+	"dependencies": {
+		"jose": "^5.9.6"
+	},
+	"peerDependencies": {
+		"express": "^4.18.0 || ^5.0.0"
+	},
+	"peerDependenciesMeta": {
+		"express": {
+			"optional": true
+		}
+	},
+	"devDependencies": {
+		"@types/express": "^4.17.21",
+		"@types/express-serve-static-core": "^4.19.6",
+		"typescript": "~5.9.3"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/GOOD-Code-ApS/torii-sdk-js.git"
+	},
+	"keywords": ["torii", "auth", "jwt", "oidc", "backend", "node"],
+	"license": "MIT"
+}
