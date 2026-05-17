@@ -1,8 +1,8 @@
-// @torii-ts/backend — torii Backend SDK for Node.
+// @torii-backend/sdk — torii Backend SDK for Node.
 //
 // Verify JWTs networklessly, call /api/server/v1/** with a secret key,
 // and (soon) verify outbound webhook signatures. Framework-agnostic; an
-// Express middleware adapter is published under `@torii-ts/backend/express`.
+// Express middleware adapter is published under `@torii-backend/sdk/express`.
 
 export {
 	type AuthenticateRequestOptions,

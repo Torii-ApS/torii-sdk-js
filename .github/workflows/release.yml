@@ -4,7 +4,7 @@ name: Release
 # secret needed — short-lived token minted at workflow runtime).
 #
 # Prerequisites (one-time, see torii repo docs/Publishing-SDKs.md):
-#   1. npm org `@torii-ts` exists.
+#   1. npm org `@torii-backend` exists.
 #   2. npmjs.com → package → Trusted Publishers → add this repo/workflow
 #      with environment `npm`.
 #   3. GitHub repo → Settings → Environments → create `npm` environment
