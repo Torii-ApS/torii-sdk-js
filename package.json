@@ -1,6 +1,6 @@
 {
 	"name": "@torii-ts/backend",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Backend SDK for torii — verify JWTs, manage users, react to events from your Node server.",
 	"type": "module",
 	"main": "src/index.ts",

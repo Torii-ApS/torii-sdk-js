@@ -37,7 +37,6 @@ export type CreateUserInput = CreateUserRequest;
 export type UpdateUserInput = {
 	name?: string | null;
 	phone?: string | null;
-	avatarUrl?: string | null;
 	locale?: 'en' | 'da' | null;
 	address?: string | null;
 	/** ISO date string, e.g. "1990-02-15". */
@@ -91,7 +90,6 @@ export class UsersClient {
 		const updateUserRequest = {
 			name: input.name,
 			phone: input.phone,
-			avatarUrl: input.avatarUrl,
 			locale: input.locale,
 			address: input.address,
 			dateOfBirth:

@@ -14,19 +14,19 @@
 
 import { mapValues } from '../runtime';
 /**
- * Optional filter body for `POST /users/search`. Every field is tri-state: omit to skip that filter, send a value to require it, send JSON null to require null.
+ * Optional filter body for `POST /users/search`. Every field is tri-state: omit to skip that filter, send a value to require it. Fields whose inner type is nullable (currently `name`, `email`) additionally accept JSON null to filter for users where that column is null; the non-nullable `statuses` field rejects null.
  * @export
  * @interface ServerUserSearchRequest
  */
 export interface ServerUserSearchRequest {
     /**
-     * Filter by name (exact match). Send null to require users with no name.
+     * Filter by name (case-insensitive substring match). Send null to require users with no name.
      * @type {string}
      * @memberof ServerUserSearchRequest
      */
     name?: string | null;
     /**
-     * Filter by primary email (exact match). Send null to require users with no email.
+     * Filter by primary email (case-insensitive substring match). Send null to require users with no email.
      * @type {string}
      * @memberof ServerUserSearchRequest
      */

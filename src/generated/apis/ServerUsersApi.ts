@@ -139,7 +139,7 @@ export interface ServerUsersApiInterface {
     deleteUserRequestOpts(requestParameters: DeleteUserRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * Soft-deletes the user. Idempotent: returns 204 even if the user was already deleted.
+     * Soft-deletes the user. Not idempotent at the HTTP layer: the authorization grant for the user is revoked on the first successful delete, so a subsequent DELETE for the same id returns 403 rather than 204. Treat 403 from a retry as a confirmation that the user is already deleted.
      * @summary Delete user
      * @param {string} userId Identifier of the user to delete.
      * @param {*} [options] Override http request option.
@@ -149,7 +149,7 @@ export interface ServerUsersApiInterface {
     deleteUserRaw(requestParameters: DeleteUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
 
     /**
-     * Soft-deletes the user. Idempotent: returns 204 even if the user was already deleted.
+     * Soft-deletes the user. Not idempotent at the HTTP layer: the authorization grant for the user is revoked on the first successful delete, so a subsequent DELETE for the same id returns 403 rather than 204. Treat 403 from a retry as a confirmation that the user is already deleted.
      * Delete user
      */
     deleteUser(requestParameters: DeleteUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
@@ -387,7 +387,7 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
     }
 
     /**
-     * Soft-deletes the user. Idempotent: returns 204 even if the user was already deleted.
+     * Soft-deletes the user. Not idempotent at the HTTP layer: the authorization grant for the user is revoked on the first successful delete, so a subsequent DELETE for the same id returns 403 rather than 204. Treat 403 from a retry as a confirmation that the user is already deleted.
      * Delete user
      */
     async deleteUserRaw(requestParameters: DeleteUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
@@ -398,7 +398,7 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
     }
 
     /**
-     * Soft-deletes the user. Idempotent: returns 204 even if the user was already deleted.
+     * Soft-deletes the user. Not idempotent at the HTTP layer: the authorization grant for the user is revoked on the first successful delete, so a subsequent DELETE for the same id returns 403 rather than 204. Treat 403 from a retry as a confirmation that the user is already deleted.
      * Delete user
      */
     async deleteUser(requestParameters: DeleteUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {

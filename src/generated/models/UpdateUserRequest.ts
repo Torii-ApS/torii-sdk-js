@@ -32,12 +32,6 @@ export interface UpdateUserRequest {
      */
     phone?: string | null;
     /**
-     * New avatar URL. Send null to clear; omit to leave unchanged.
-     * @type {string}
-     * @memberof UpdateUserRequest
-     */
-    avatarUrl?: string | null;
-    /**
      * New preferred locale. Send null to clear; omit to leave unchanged.
      * @type {UpdateUserRequestLocaleEnum}
      * @memberof UpdateUserRequest
@@ -87,7 +81,6 @@ export function UpdateUserRequestFromJSONTyped(json: any, ignoreDiscriminator: b
         
         'name': json['name'] == null ? undefined : json['name'],
         'phone': json['phone'] == null ? undefined : json['phone'],
-        'avatarUrl': json['avatarUrl'] == null ? undefined : json['avatarUrl'],
         'locale': json['locale'] == null ? undefined : json['locale'],
         'address': json['address'] == null ? undefined : json['address'],
         'dateOfBirth': json['dateOfBirth'] == null ? undefined : (new Date(json['dateOfBirth'])),
@@ -107,7 +100,6 @@ export function UpdateUserRequestToJSONTyped(value?: UpdateUserRequest | null, i
         
         'name': value['name'],
         'phone': value['phone'],
-        'avatarUrl': value['avatarUrl'],
         'locale': value['locale'],
         'address': value['address'],
         'dateOfBirth': value['dateOfBirth'] == null ? value['dateOfBirth'] : value['dateOfBirth'].toISOString().substring(0,10),

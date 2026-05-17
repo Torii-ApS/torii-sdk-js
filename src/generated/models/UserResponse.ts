@@ -44,12 +44,6 @@ export interface UserResponse {
      */
     phone?: string | null;
     /**
-     * URL of the user's avatar image, if any.
-     * @type {string}
-     * @memberof UserResponse
-     */
-    avatarUrl?: string | null;
-    /**
      * Preferred locale for emails and UI messages.
      * @type {UserResponseLocaleEnum}
      * @memberof UserResponse
@@ -147,7 +141,6 @@ export function UserResponseFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'environmentId': json['environmentId'],
         'name': json['name'] == null ? undefined : json['name'],
         'phone': json['phone'] == null ? undefined : json['phone'],
-        'avatarUrl': json['avatarUrl'] == null ? undefined : json['avatarUrl'],
         'locale': json['locale'] == null ? undefined : json['locale'],
         'address': json['address'] == null ? undefined : json['address'],
         'dateOfBirth': json['dateOfBirth'] == null ? undefined : (new Date(json['dateOfBirth'])),
@@ -174,7 +167,6 @@ export function UserResponseToJSONTyped(value?: UserResponse | null, ignoreDiscr
         'environmentId': value['environmentId'],
         'name': value['name'],
         'phone': value['phone'],
-        'avatarUrl': value['avatarUrl'],
         'locale': value['locale'],
         'address': value['address'],
         'dateOfBirth': value['dateOfBirth'] == null ? value['dateOfBirth'] : value['dateOfBirth'].toISOString().substring(0,10),
