@@ -1,12 +1,12 @@
 # Contributing
 
-Thanks for your interest in `@torii-ts/backend` (this repo: `torii-sdk-js`)!
+Thanks for your interest in `@torii-backend/sdk` (this repo: `torii-sdk-js`)!
 
 ## Reporting bugs
 
 Open an issue with:
 
-- The version of `@torii-ts/backend` you're using (`npm ls @torii-ts/backend` or check your `package.json`).
+- The version of `@torii-backend/sdk` you're using (`npm ls @torii-backend/sdk` or check your `package.json`).
 - A minimal reproduction — a few lines that exhibit the bug.
 - What you expected to happen vs. what actually happened.
 

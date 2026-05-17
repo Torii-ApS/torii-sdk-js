@@ -1,4 +1,4 @@
-# @torii-ts/backend
+# @torii-backend/sdk
 
 Backend SDK for [torii](https://torii.so) — verify end-user JWTs without a per-request round trip and manage users from your Node server.
 
@@ -13,8 +13,8 @@ Backend SDK for [torii](https://torii.so) — verify end-user JWTs without a per
 2. Install the SDK:
 
    ```sh
-   bun add @torii-ts/backend
-   # or: npm install @torii-ts/backend
+   bun add @torii-backend/sdk
+   # or: npm install @torii-backend/sdk
    ```
 
    Node 18+ (global `fetch`). Bun is supported.
@@ -22,7 +22,7 @@ Backend SDK for [torii](https://torii.so) — verify end-user JWTs without a per
 3. Verify an end-user JWT:
 
    ```ts
-   import { verifyToken } from "@torii-ts/backend";
+   import { verifyToken } from "@torii-backend/sdk";
 
    const auth = await verifyToken(token, {
      issuer: "https://acme.torii.so",
@@ -36,7 +36,7 @@ Backend SDK for [torii](https://torii.so) — verify end-user JWTs without a per
 4. Call the backend REST API:
 
    ```ts
-   import { createToriiClient } from "@torii-ts/backend";
+   import { createToriiClient } from "@torii-backend/sdk";
 
    const torii = createToriiClient({
      secretKey: process.env.TORII_SECRET_KEY!,
@@ -51,7 +51,7 @@ Backend SDK for [torii](https://torii.so) — verify end-user JWTs without a per
 
 ```ts
 import express from "express";
-import { requireAuth } from "@torii-ts/backend/express";
+import { requireAuth } from "@torii-backend/sdk/express";
 
 const app = express();
 
