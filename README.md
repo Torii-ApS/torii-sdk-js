@@ -45,7 +45,7 @@ Backend SDK for [torii](https://torii.so) — verify end-user JWTs without a per
    const user = await torii.users.get(userId);
    ```
 
-   Default base URL is `https://api.torii.so`. Override with `apiUrl` for staging or self-hosted.
+   Default base URL is `https://api.torii.so`. Override with `apiUrl` for staging or testing environments.
 
 ## Express middleware
 
