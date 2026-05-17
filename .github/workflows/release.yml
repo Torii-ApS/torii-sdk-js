@@ -32,10 +32,12 @@ jobs:
 
       - name: Set up Node (npm CLI for OIDC publish)
         # bun publish doesn't yet emit SLSA provenance attestations.
-        # Use the npm CLI (Node 22+) for `--provenance` support.
+        # Use the npm CLI for `--provenance` support. Node 24 ships
+        # with npm 11, required for the OIDC trusted-publishing handshake
+        # (npm 10 on Node 22 falls back to anonymous auth → misleading 404).
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Assert tag matches package.json version
