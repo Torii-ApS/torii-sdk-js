@@ -67,6 +67,12 @@ export interface UserSessionResponse {
      * @memberof UserSessionResponse
      */
     lastUsedAt: Date;
+    /**
+     * Active organization pinned to this session (`org_id` claim on re-mint).
+     * @type {string}
+     * @memberof UserSessionResponse
+     */
+    activeOrganizationId?: string | null;
 }
 
 /**
@@ -100,6 +106,7 @@ export function UserSessionResponseFromJSONTyped(json: any, ignoreDiscriminator:
         'createdAt': (new Date(json['createdAt'])),
         'expiresAt': (new Date(json['expiresAt'])),
         'lastUsedAt': (new Date(json['lastUsedAt'])),
+        'activeOrganizationId': json['activeOrganizationId'] == null ? undefined : json['activeOrganizationId'],
     };
 }
 
@@ -122,6 +129,7 @@ export function UserSessionResponseToJSONTyped(value?: UserSessionResponse | nul
         'createdAt': value['createdAt'].toISOString(),
         'expiresAt': value['expiresAt'].toISOString(),
         'lastUsedAt': value['lastUsedAt'].toISOString(),
+        'activeOrganizationId': value['activeOrganizationId'],
     };
 }
 

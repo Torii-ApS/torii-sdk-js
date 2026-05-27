@@ -56,7 +56,6 @@ export interface ServerUserSearchRequest {
  * @export
  */
 export const ServerUserSearchRequestStatusesEnum = {
-    PendingVerification: 'pending_verification',
     Active: 'active',
     Banned: 'banned',
     Deleted: 'deleted'

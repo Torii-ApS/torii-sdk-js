@@ -86,6 +86,12 @@ export interface UserResponse {
      */
     email?: string | null;
     /**
+     * When this user's primary email was verified, if it has been verified.
+     * @type {Date}
+     * @memberof UserResponse
+     */
+    emailVerifiedAt?: Date | null;
+    /**
      * When this user was deleted, if soft-deleted. Null for active users.
      * @type {Date}
      * @memberof UserResponse
@@ -107,7 +113,6 @@ export type UserResponseLocaleEnum = typeof UserResponseLocaleEnum[keyof typeof 
  * @export
  */
 export const UserResponseStatusEnum = {
-    PendingVerification: 'pending_verification',
     Active: 'active',
     Banned: 'banned',
     Deleted: 'deleted'
@@ -148,6 +153,7 @@ export function UserResponseFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'createdAt': (new Date(json['createdAt'])),
         'updatedAt': (new Date(json['updatedAt'])),
         'email': json['email'] == null ? undefined : json['email'],
+        'emailVerifiedAt': json['emailVerifiedAt'] == null ? undefined : (new Date(json['emailVerifiedAt'])),
         'deletedAt': json['deletedAt'] == null ? undefined : (new Date(json['deletedAt'])),
     };
 }
@@ -174,6 +180,7 @@ export function UserResponseToJSONTyped(value?: UserResponse | null, ignoreDiscr
         'createdAt': value['createdAt'].toISOString(),
         'updatedAt': value['updatedAt'].toISOString(),
         'email': value['email'],
+        'emailVerifiedAt': value['emailVerifiedAt'] == null ? value['emailVerifiedAt'] : value['emailVerifiedAt'].toISOString(),
         'deletedAt': value['deletedAt'] == null ? value['deletedAt'] : value['deletedAt'].toISOString(),
     };
 }
