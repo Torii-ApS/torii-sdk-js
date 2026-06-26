@@ -10,26 +10,23 @@ export {
 	type RequestLike,
 } from './authenticate-request.js';
 // Generated data types — re-exported under stable Torii* aliases so the
-// public surface is independent of the generator's naming.
+// public surface is independent of the generator's naming. The request types
+// carry tri-state PATCH semantics natively (`T | null | undefined`), so the
+// public methods accept them directly with no hand-written wrapper.
 export type {
 	CreateUserRequest as ToriiCreateUserInput,
 	CursorPageResponseServerUserResponse as ToriiCursorPageUser,
 	ProblemDetail as ToriiProblemDetail,
 	ServerUserResponse as ToriiUser,
+	ServerUserSearchRequest as ToriiUserSearchFilter,
+	UpdateUserRequest as ToriiUpdateUserInput,
 	UserSessionResponse as ToriiSession,
 } from './generated/index.js';
-// `UpdateUserInput` is hand-written (see ./torii.ts) so it can express
-// PATCH tri-state semantics (`T | null | undefined`) natively — the
-// generated `UpdateUserRequest` only models `T | undefined`. Aliased to
-// `ToriiUpdateUserInput` for symmetry with the other Torii* aliases.
-export type { UpdateUserInput as ToriiUpdateUserInput } from './torii.js';
 export {
-	type CreateUserInput,
 	createToriiClient,
 	type ListUsersOptions,
 	SessionsClient,
 	type ToriiClient,
-	type UpdateUserInput,
 	UsersClient,
 } from './torii.js';
 export {
