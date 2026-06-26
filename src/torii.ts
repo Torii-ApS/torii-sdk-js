@@ -9,99 +9,58 @@
 
 import {
 	Configuration,
+	type CreateUserRequest,
 	ResponseError,
+	type ServerUserSearchRequest,
 	ServerSessionsApi,
 	ServerUsersApi,
+	type UpdateUserRequest,
 } from './generated/index.js';
 import { ToriiApiError, type ToriiClientOptions } from './types.js';
 
 const DEFAULT_API_URL = 'https://api.torii.so';
 
-// Public input types for the public methods.
-//
-// `CreateUserInput` mirrors the generated shape: optional values, no nulls.
-//
-// `UpdateUserInput` is hand-written to express PATCH tri-state semantics
-// natively in TypeScript via `T | null | undefined`:
-//   - key absent (or `undefined`) → server leaves field alone
-//   - `null`                      → server clears the field
-//   - a value                     → server updates the field
-//
-// `JSON.stringify` drops `undefined` keys but keeps `null`, which is
-// exactly the wire contract the server expects for PATCH bodies — and
-// the generated `UpdateUserRequestToJSON` preserves that distinction
-// for string fields (it copies the value through unchanged).
-export type CreateUserInput = {
-	email?: string | null;
-	password?: string | null;
-	firstName?: string | null;
-	lastName?: string | null;
-	/** Metadata bags. Optional — default to `{}` on send (a new user has none to clobber). */
-	publicMetadata?: Record<string, unknown>;
-	privateMetadata?: Record<string, unknown>;
-	unsafeMetadata?: Record<string, unknown>;
-};
-
-export type UpdateUserInput = {
-	firstName?: string | null;
-	lastName?: string | null;
-	locale?: 'en' | 'da' | null;
-	/** Tri-state: omit to leave untouched (never clobbered), set to replace, null to clear. */
-	unsafeMetadata?: Record<string, unknown> | null;
-};
+// The public methods accept the generated request types directly, so a new
+// spec field flows through with zero hand edits. Tri-state PATCH semantics are
+// carried natively by the generated `T | null | undefined` fields: a key absent
+// (undefined) is dropped by JSON.stringify (leave unchanged), `null` is emitted
+// (clear), a value is emitted (set). Metadata bags are 2-state (omit vs object);
+// a null-valued key inside a bag deletes that key. The pinned wire contract for
+// all of this lives in contract-tests/fixtures/patch-wire and is asserted in
+// __tests__/patch-wire.test.ts.
 
 export type ListUsersOptions = {
 	limit?: number;
 	cursor?: string;
-	name?: string;
-	email?: string;
-	statuses?: string[];
-	createdAfter?: string;
-	createdBefore?: string;
+	/** Filter body. Every field is the generated tri-state shape (see ServerUserSearchRequest). */
+	filter?: ServerUserSearchRequest;
 };
 
 export class UsersClient {
 	constructor(private readonly api: ServerUsersApi) {}
 
 	list(options: ListUsersOptions = {}) {
-		const { limit, cursor, name, email, statuses, createdAfter, createdBefore } = options;
-		// Bridge the public string-based options to the generator's typed
-		// search shape: statuses → Set, ISO date strings → Date.
-		const serverUserSearchRequest = {
-			name,
-			email,
-			statuses: statuses == null ? undefined : new Set(statuses),
-			createdAfter: createdAfter == null ? undefined : new Date(createdAfter),
-			createdBefore: createdBefore == null ? undefined : new Date(createdBefore),
-			// biome-ignore lint/suspicious/noExplicitAny: bridges plain strings to the generator's enum-typed Set
-		} as any;
-		return this.api.searchUsers({ limit, cursor, serverUserSearchRequest });
+		return this.api.searchUsers({
+			limit: options.limit,
+			cursor: options.cursor,
+			serverUserSearchRequest: options.filter,
+		});
 	}
 
 	get(userId: string) {
 		return this.api.getUser({ userId });
 	}
 
-	create(input: CreateUserInput) {
-		// Metadata bags are optional; omit them and the server defaults each to
-		// {} (a new user has nothing to clobber).
-		// biome-ignore lint/suspicious/noExplicitAny: bridges CreateUserInput → generator's CreateUserRequest
-		return this.api.createUser({ createUserRequest: input as any });
+	create(input: CreateUserRequest) {
+		// Metadata bags are optional; omit them and the server defaults each to {}.
+		return this.api.createUser({ createUserRequest: input });
 	}
 
-	update(userId: string, input: UpdateUserInput) {
-		// Bridge our hand-written tri-state shape (T | null | undefined) into the
-		// generator's looser `UpdateUserRequest`. `null`/`undefined` pass through
-		// untouched — JSON.stringify drops `undefined` keys and emits `null`, which
-		// is exactly the PATCH wire contract (omit = unchanged, null = clear).
-		const updateUserRequest = {
-			firstName: input.firstName,
-			lastName: input.lastName,
-			locale: input.locale,
-			unsafeMetadata: input.unsafeMetadata,
-			// biome-ignore lint/suspicious/noExplicitAny: bridges UpdateUserInput → generator's UpdateUserRequest
-		} as any;
-		return this.api.updateUser({ userId, updateUserRequest });
+	update(userId: string, input: UpdateUserRequest) {
+		// The generated UpdateUserRequest fields are T | null | undefined, which map
+		// 1:1 to the PATCH wire contract via UpdateUserRequestToJSON + JSON.stringify:
+		// absent (undefined) => omitted (leave), null => clear, value => set.
+		return this.api.updateUser({ userId, updateUserRequest: input });
 	}
 
 	async delete(userId: string): Promise<void> {
