@@ -13,9 +13,9 @@ export {
 // public surface is independent of the generator's naming.
 export type {
 	CreateUserRequest as ToriiCreateUserInput,
-	CursorPageResponseUserResponse as ToriiCursorPageUser,
+	CursorPageResponseServerUserResponse as ToriiCursorPageUser,
 	ProblemDetail as ToriiProblemDetail,
-	UserResponse as ToriiUser,
+	ServerUserResponse as ToriiUser,
 	UserSessionResponse as ToriiSession,
 } from './generated/index.js';
 // `UpdateUserInput` is hand-written (see ./torii.ts) so it can express

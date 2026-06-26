@@ -35,7 +35,8 @@ const DEFAULT_API_URL = 'https://api.torii.so';
 export type CreateUserInput = CreateUserRequest;
 
 export type UpdateUserInput = {
-	name?: string | null;
+	firstName?: string | null;
+	lastName?: string | null;
 	phone?: string | null;
 	locale?: 'en' | 'da' | null;
 	address?: string | null;
@@ -88,7 +89,8 @@ export class UsersClient {
 		// — JSON.stringify drops `undefined` keys and emits `null`, which
 		// is exactly the PATCH wire contract.
 		const updateUserRequest = {
-			name: input.name,
+			firstName: input.firstName,
+			lastName: input.lastName,
 			phone: input.phone,
 			locale: input.locale,
 			address: input.address,
