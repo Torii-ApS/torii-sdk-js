@@ -26,7 +26,11 @@ import type { ListRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new AllowedOriginsApi();
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new AllowedOriginsApi(config);
 
   try {
     const data = await api.list();
@@ -50,7 +54,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -85,7 +89,11 @@ import type { SetRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new AllowedOriginsApi();
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new AllowedOriginsApi(config);
 
   const body = {
     // SetAllowedOriginsRequest
@@ -117,7 +125,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 

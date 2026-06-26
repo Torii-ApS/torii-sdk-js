@@ -314,6 +314,14 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
 
         let urlPath = `/api/server/v1/users/{userId}/ban`;
         urlPath = urlPath.replace('{userId}', encodeURIComponent(String(requestParameters['userId'])));
@@ -363,6 +371,14 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
 
         headerParameters['Content-Type'] = 'application/json';
 
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
 
         let urlPath = `/api/server/v1/users`;
 
@@ -410,6 +426,14 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
 
         let urlPath = `/api/server/v1/users/{userId}`;
         urlPath = urlPath.replace('{userId}', encodeURIComponent(String(requestParameters['userId'])));
@@ -456,6 +480,14 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
 
         let urlPath = `/api/server/v1/users/{userId}`;
         urlPath = urlPath.replace('{userId}', encodeURIComponent(String(requestParameters['userId'])));
@@ -506,6 +538,14 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
 
         headerParameters['Content-Type'] = 'application/json';
 
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
 
         let urlPath = `/api/server/v1/users/search`;
 
@@ -553,6 +593,14 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
 
         let urlPath = `/api/server/v1/users/{userId}/unban`;
         urlPath = urlPath.replace('{userId}', encodeURIComponent(String(requestParameters['userId'])));
@@ -609,6 +657,14 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
 
         headerParameters['Content-Type'] = 'application/json';
 
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
 
         let urlPath = `/api/server/v1/users/{userId}`;
         urlPath = urlPath.replace('{userId}', encodeURIComponent(String(requestParameters['userId'])));
@@ -666,6 +722,14 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
 
         headerParameters['Content-Type'] = 'application/json';
 
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
 
         let urlPath = `/api/server/v1/users/{userId}/metadata`;
         urlPath = urlPath.replace('{userId}', encodeURIComponent(String(requestParameters['userId'])));

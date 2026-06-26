@@ -34,7 +34,11 @@ import type { BanUserRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new ServerUsersApi();
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new ServerUsersApi(config);
 
   const body = {
     // string | Identifier of the user to ban.
@@ -66,7 +70,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -104,7 +108,11 @@ import type { CreateUserOperationRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new ServerUsersApi();
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new ServerUsersApi(config);
 
   const body = {
     // CreateUserRequest
@@ -136,7 +144,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -174,7 +182,11 @@ import type { DeleteUserRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new ServerUsersApi();
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new ServerUsersApi(config);
 
   const body = {
     // string | Identifier of the user to delete.
@@ -206,7 +218,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -244,7 +256,11 @@ import type { GetUserRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new ServerUsersApi();
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new ServerUsersApi(config);
 
   const body = {
     // string | Identifier of the user to fetch.
@@ -276,7 +292,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -314,7 +330,11 @@ import type { SearchUsersRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new ServerUsersApi();
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new ServerUsersApi(config);
 
   const body = {
     // number | Maximum number of items in the returned page (default 20). (optional)
@@ -352,7 +372,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -388,7 +408,11 @@ import type { UnbanUserRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new ServerUsersApi();
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new ServerUsersApi(config);
 
   const body = {
     // string | Identifier of the user to unban.
@@ -420,7 +444,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -458,7 +482,11 @@ import type { UpdateUserOperationRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new ServerUsersApi();
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new ServerUsersApi(config);
 
   const body = {
     // string | Identifier of the user to update.
@@ -493,7 +521,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -532,7 +560,11 @@ import type { UpdateUserMetadataOperationRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new ServerUsersApi();
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new ServerUsersApi(config);
 
   const body = {
     // string | Identifier of the user to update.
@@ -567,7 +599,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 

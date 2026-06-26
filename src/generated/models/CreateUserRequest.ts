@@ -48,28 +48,25 @@ export interface CreateUserRequest {
      * @type {{ [key: string]: any; }}
      * @memberof CreateUserRequest
      */
-    publicMetadata: { [key: string]: any; };
+    publicMetadata?: { [key: string]: any; };
     /**
      * Initial private metadata (server-only). Max 4096 bytes.
      * @type {{ [key: string]: any; }}
      * @memberof CreateUserRequest
      */
-    privateMetadata: { [key: string]: any; };
+    privateMetadata?: { [key: string]: any; };
     /**
      * Initial unsafe metadata (end-user writable). Max 512 bytes.
      * @type {{ [key: string]: any; }}
      * @memberof CreateUserRequest
      */
-    unsafeMetadata: { [key: string]: any; };
+    unsafeMetadata?: { [key: string]: any; };
 }
 
 /**
  * Check if a given object implements the CreateUserRequest interface.
  */
 export function instanceOfCreateUserRequest(value: object): value is CreateUserRequest {
-    if (!('publicMetadata' in value) || value['publicMetadata'] === undefined) return false;
-    if (!('privateMetadata' in value) || value['privateMetadata'] === undefined) return false;
-    if (!('unsafeMetadata' in value) || value['unsafeMetadata'] === undefined) return false;
     return true;
 }
 
@@ -87,9 +84,9 @@ export function CreateUserRequestFromJSONTyped(json: any, ignoreDiscriminator: b
         'password': json['password'] == null ? undefined : json['password'],
         'firstName': json['firstName'] == null ? undefined : json['firstName'],
         'lastName': json['lastName'] == null ? undefined : json['lastName'],
-        'publicMetadata': json['publicMetadata'],
-        'privateMetadata': json['privateMetadata'],
-        'unsafeMetadata': json['unsafeMetadata'],
+        'publicMetadata': json['publicMetadata'] == null ? undefined : json['publicMetadata'],
+        'privateMetadata': json['privateMetadata'] == null ? undefined : json['privateMetadata'],
+        'unsafeMetadata': json['unsafeMetadata'] == null ? undefined : json['unsafeMetadata'],
     };
 }
 

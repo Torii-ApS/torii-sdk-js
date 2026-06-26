@@ -83,16 +83,10 @@ export class UsersClient {
 	}
 
 	create(input: CreateUserInput) {
-		// The generated CreateUserRequest requires the three metadata bags; default
-		// them to {} so callers can omit them (a new user has nothing to clobber).
-		const createUserRequest = {
-			...input,
-			publicMetadata: input.publicMetadata ?? {},
-			privateMetadata: input.privateMetadata ?? {},
-			unsafeMetadata: input.unsafeMetadata ?? {},
-			// biome-ignore lint/suspicious/noExplicitAny: bridges CreateUserInput → generator's CreateUserRequest
-		} as any;
-		return this.api.createUser({ createUserRequest });
+		// Metadata bags are optional; omit them and the server defaults each to
+		// {} (a new user has nothing to clobber).
+		// biome-ignore lint/suspicious/noExplicitAny: bridges CreateUserInput → generator's CreateUserRequest
+		return this.api.createUser({ createUserRequest: input as any });
 	}
 
 	update(userId: string, input: UpdateUserInput) {
@@ -157,9 +151,9 @@ export function createToriiClient(options: ToriiClientOptions): ToriiClient {
 	const config = new Configuration({
 		basePath: (options.apiUrl ?? DEFAULT_API_URL).replace(/\/$/, ''),
 		fetchApi: fetchImpl,
-		// Spec doesn't declare a securityScheme, so authorise via a header on
-		// every request rather than the `accessToken` config slot.
-		headers: { authorization: `Bearer ${options.secretKey}` },
+		// The spec declares a `bearerAuth` scheme, so the generated operations
+		// send `Authorization: Bearer <accessToken>` on every request.
+		accessToken: options.secretKey,
 		middleware: [
 			{
 				// Translate the generated client's ResponseError into our

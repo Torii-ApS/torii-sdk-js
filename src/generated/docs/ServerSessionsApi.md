@@ -29,7 +29,11 @@ import type { ListSessionsRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new ServerSessionsApi();
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new ServerSessionsApi(config);
 
   const body = {
     // string | Identifier of the user whose sessions to list.
@@ -61,7 +65,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -98,7 +102,11 @@ import type { RevokeAllSessionsRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new ServerSessionsApi();
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new ServerSessionsApi(config);
 
   const body = {
     // string | Identifier of the user whose sessions to revoke.
@@ -130,7 +138,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -167,7 +175,11 @@ import type { RevokeSessionRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new ServerSessionsApi();
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new ServerSessionsApi(config);
 
   const body = {
     // string | Identifier of the user who owns the session.
@@ -202,7 +214,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
