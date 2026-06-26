@@ -9,7 +9,6 @@
 
 import {
 	Configuration,
-	type CreateUserRequest,
 	ResponseError,
 	ServerSessionsApi,
 	ServerUsersApi,
@@ -32,16 +31,23 @@ const DEFAULT_API_URL = 'https://api.torii.so';
 // exactly the wire contract the server expects for PATCH bodies — and
 // the generated `UpdateUserRequestToJSON` preserves that distinction
 // for string fields (it copies the value through unchanged).
-export type CreateUserInput = CreateUserRequest;
+export type CreateUserInput = {
+	email?: string | null;
+	password?: string | null;
+	firstName?: string | null;
+	lastName?: string | null;
+	/** Metadata bags. Optional — default to `{}` on send (a new user has none to clobber). */
+	publicMetadata?: Record<string, unknown>;
+	privateMetadata?: Record<string, unknown>;
+	unsafeMetadata?: Record<string, unknown>;
+};
 
 export type UpdateUserInput = {
 	firstName?: string | null;
 	lastName?: string | null;
-	phone?: string | null;
 	locale?: 'en' | 'da' | null;
-	address?: string | null;
-	/** ISO date string, e.g. "1990-02-15". */
-	dateOfBirth?: string | null;
+	/** Tri-state: omit to leave untouched (never clobbered), set to replace, null to clear. */
+	unsafeMetadata?: Record<string, unknown> | null;
 };
 
 export type ListUsersOptions = {
@@ -77,25 +83,28 @@ export class UsersClient {
 	}
 
 	create(input: CreateUserInput) {
-		return this.api.createUser({ createUserRequest: input });
+		// The generated CreateUserRequest requires the three metadata bags; default
+		// them to {} so callers can omit them (a new user has nothing to clobber).
+		const createUserRequest = {
+			...input,
+			publicMetadata: input.publicMetadata ?? {},
+			privateMetadata: input.privateMetadata ?? {},
+			unsafeMetadata: input.unsafeMetadata ?? {},
+			// biome-ignore lint/suspicious/noExplicitAny: bridges CreateUserInput → generator's CreateUserRequest
+		} as any;
+		return this.api.createUser({ createUserRequest });
 	}
 
 	update(userId: string, input: UpdateUserInput) {
-		// Bridge our hand-written tri-state shape (T | null | undefined,
-		// with `dateOfBirth` as an ISO string) into the generator's looser
-		// `UpdateUserRequest` shape, converting the date string into a
-		// `Date` so the generated `ToJSON` serializer doesn't choke on
-		// `.toISOString()`. `null` and `undefined` pass through untouched
-		// — JSON.stringify drops `undefined` keys and emits `null`, which
-		// is exactly the PATCH wire contract.
+		// Bridge our hand-written tri-state shape (T | null | undefined) into the
+		// generator's looser `UpdateUserRequest`. `null`/`undefined` pass through
+		// untouched — JSON.stringify drops `undefined` keys and emits `null`, which
+		// is exactly the PATCH wire contract (omit = unchanged, null = clear).
 		const updateUserRequest = {
 			firstName: input.firstName,
 			lastName: input.lastName,
-			phone: input.phone,
 			locale: input.locale,
-			address: input.address,
-			dateOfBirth:
-				input.dateOfBirth == null ? input.dateOfBirth : new Date(input.dateOfBirth),
+			unsafeMetadata: input.unsafeMetadata,
 			// biome-ignore lint/suspicious/noExplicitAny: bridges UpdateUserInput → generator's UpdateUserRequest
 		} as any;
 		return this.api.updateUser({ userId, updateUserRequest });
