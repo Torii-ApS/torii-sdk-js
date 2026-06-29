@@ -43,7 +43,7 @@ const example = {
   "emailVerifiedAt": 2026-05-16T09:35:00Z,
   "deletedAt": 2026-05-20T12:00:00Z,
   "publicMetadata": {plan=pro},
-  "privateMetadata": {stripeId=cus_123},
+  "privateMetadata": {billingCustomerId=cus_123},
   "unsafeMetadata": {onboardingStep=2},
 } satisfies ServerUserResponse
 

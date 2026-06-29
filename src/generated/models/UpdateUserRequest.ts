@@ -38,7 +38,7 @@ export interface UpdateUserRequest {
      */
     locale?: UpdateUserRequestLocaleEnum | null;
     /**
-     * Deep-merges into the user's unsafe metadata (a key set to null removes it); omit to leave unchanged. Merged result max 512 bytes.
+     * Deep-merges into the user's unsafe metadata (a key set to null removes it); omit to leave unchanged. Counts toward the 8 KB combined metadata budget.
      * @type {{ [key: string]: any; }}
      * @memberof UpdateUserRequest
      */

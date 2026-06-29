@@ -317,7 +317,7 @@ example().catch(console.error);
 
 Search users
 
-Returns a cursor-paginated page of end-users in the environment matching the optional filters. Filters use the same tri-state PATCH semantics as &#x60;UpdateUserRequest&#x60;: omit a field to skip that filter, send a value to require it, send null to require null. Uses POST so the filter body can be sent without URL-encoding.
+Returns a cursor-paginated page of end-users in the environment matching the optional filters. Uses POST so the filter body can be sent without URL-encoding. Three id-selectors resolve users to a set of ids (&#x60;userIds&#x60;, the explicit batch-by-id lookup; &#x60;emailAddresses&#x60;, exact and case-insensitive; &#x60;email&#x60;, a case-insensitive substring); when more than one is supplied they are combined with AND (intersection). The remaining filters (&#x60;name&#x60;, &#x60;statuses&#x60;, &#x60;createdAfter&#x60;/&#x60;createdBefore&#x60;) apply on top.
 
 ### Example
 
@@ -384,6 +384,7 @@ example().catch(console.error);
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Page of matching users. |  -  |
+| **400** | An id-selector list exceeds 100 entries. |  -  |
 | **401** | Missing or invalid secret key. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
@@ -547,7 +548,7 @@ example().catch(console.error);
 
 Update user metadata
 
-Deep-merges into any of the three metadata bags. Each bag is tri-state: omit the key to leave the bag unchanged, or send an object to deep-merge into the existing bag (a key set to null removes it). The merged result is capped at 512 bytes for &#x60;publicMetadata&#x60;/&#x60;unsafeMetadata&#x60; and 4096 bytes for &#x60;privateMetadata&#x60;.
+Deep-merges into any of the three metadata bags. Each bag is tri-state: omit the key to leave the bag unchanged, or send an object to deep-merge into the existing bag (a key set to null removes it). The merged metadata is capped at 8 KB total across &#x60;publicMetadata&#x60;, &#x60;privateMetadata&#x60;, and &#x60;unsafeMetadata&#x60; combined (no per-bag limit).
 
 ### Example
 

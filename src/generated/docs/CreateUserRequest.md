@@ -27,7 +27,7 @@ const example = {
   "firstName": Ada,
   "lastName": Lovelace,
   "publicMetadata": {plan=free},
-  "privateMetadata": {stripeId=cus_123},
+  "privateMetadata": {billingCustomerId=cus_123},
   "unsafeMetadata": {onboardingStep=0},
 } satisfies CreateUserRequest
 
