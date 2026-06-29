@@ -1,27 +1,30 @@
 
-# UpdateUserMetadataRequest
+# CreateEnvironmentInvitationServerRequest
 
-PATCH body for a user\'s metadata bags. Each bag is tri-state: omit to leave it unchanged, or send an object value. Whether the object merges into or replaces the bag depends on the endpoint (see its operation description).
 
 ## Properties
 
 Name | Type
 ------------ | -------------
+`email` | string
+`expiresInDays` | number
+`redirectUrl` | string
 `publicMetadata` | { [key: string]: any; }
 `privateMetadata` | { [key: string]: any; }
-`unsafeMetadata` | { [key: string]: any; }
 
 ## Example
 
 ```typescript
-import type { UpdateUserMetadataRequest } from ''
+import type { CreateEnvironmentInvitationServerRequest } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-  "publicMetadata": {plan=pro},
-  "privateMetadata": {billingCustomerId=cus_123},
-  "unsafeMetadata": {onboardingStep=2},
-} satisfies UpdateUserMetadataRequest
+  "email": null,
+  "expiresInDays": null,
+  "redirectUrl": null,
+  "publicMetadata": null,
+  "privateMetadata": null,
+} satisfies CreateEnvironmentInvitationServerRequest
 
 console.log(example)
 
@@ -30,7 +33,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as UpdateUserMetadataRequest
+const exampleParsed = JSON.parse(exampleJSON) as CreateEnvironmentInvitationServerRequest
 console.log(exampleParsed)
 ```
 

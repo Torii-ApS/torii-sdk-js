@@ -44,19 +44,19 @@ export interface CreateUserRequest {
      */
     lastName?: string | null;
     /**
-     * Initial public metadata (SDK-readable, server-written). Max 512 bytes.
+     * Initial public metadata (SDK-readable, server-written). Part of the 8 KB combined metadata budget.
      * @type {{ [key: string]: any; }}
      * @memberof CreateUserRequest
      */
     publicMetadata?: { [key: string]: any; };
     /**
-     * Initial private metadata (server-only). Max 4096 bytes.
+     * Initial private metadata (server-only). Part of the 8 KB combined metadata budget.
      * @type {{ [key: string]: any; }}
      * @memberof CreateUserRequest
      */
     privateMetadata?: { [key: string]: any; };
     /**
-     * Initial unsafe metadata (end-user writable). Max 512 bytes.
+     * Initial unsafe metadata (end-user writable). Part of the 8 KB combined metadata budget.
      * @type {{ [key: string]: any; }}
      * @memberof CreateUserRequest
      */

@@ -1,0 +1,39 @@
+
+# ServerImpersonationTokenRequest
+
+Body for minting an impersonation token.
+
+## Properties
+
+Name | Type
+------------ | -------------
+`actorUserId` | string
+`reason` | string
+`expiresInSeconds` | number
+
+## Example
+
+```typescript
+import type { ServerImpersonationTokenRequest } from ''
+
+// TODO: Update the object below with actual values
+const example = {
+  "actorUserId": 01931a73-8b00-7000-8000-000000000000,
+  "reason": Investigating support ticket #4821,
+  "expiresInSeconds": 120,
+} satisfies ServerImpersonationTokenRequest
+
+console.log(example)
+
+// Convert the instance to a JSON string
+const exampleJSON: string = JSON.stringify(example)
+console.log(exampleJSON)
+
+// Parse the JSON string back to an object
+const exampleParsed = JSON.parse(exampleJSON) as ServerImpersonationTokenRequest
+console.log(exampleParsed)
+```
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+

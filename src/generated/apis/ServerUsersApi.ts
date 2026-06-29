@@ -199,7 +199,7 @@ export interface ServerUsersApiInterface {
     searchUsersRequestOpts(requestParameters: SearchUsersRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * Returns a cursor-paginated page of end-users in the environment matching the optional filters. Filters use the same tri-state PATCH semantics as `UpdateUserRequest`: omit a field to skip that filter, send a value to require it, send null to require null. Uses POST so the filter body can be sent without URL-encoding.
+     * Returns a cursor-paginated page of end-users in the environment matching the optional filters. Uses POST so the filter body can be sent without URL-encoding. Three id-selectors resolve users to a set of ids (`userIds`, the explicit batch-by-id lookup; `emailAddresses`, exact and case-insensitive; `email`, a case-insensitive substring); when more than one is supplied they are combined with AND (intersection). The remaining filters (`name`, `statuses`, `createdAfter`/`createdBefore`) apply on top.
      * @summary Search users
      * @param {number} [limit] Maximum number of items in the returned page (default 20).
      * @param {string} [cursor] Opaque cursor returned by the previous page\&#39;s &#x60;nextCursor&#x60;. Omit to fetch the first page.
@@ -211,7 +211,7 @@ export interface ServerUsersApiInterface {
     searchUsersRaw(requestParameters: SearchUsersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CursorPageResponseServerUserResponse>>;
 
     /**
-     * Returns a cursor-paginated page of end-users in the environment matching the optional filters. Filters use the same tri-state PATCH semantics as `UpdateUserRequest`: omit a field to skip that filter, send a value to require it, send null to require null. Uses POST so the filter body can be sent without URL-encoding.
+     * Returns a cursor-paginated page of end-users in the environment matching the optional filters. Uses POST so the filter body can be sent without URL-encoding. Three id-selectors resolve users to a set of ids (`userIds`, the explicit batch-by-id lookup; `emailAddresses`, exact and case-insensitive; `email`, a case-insensitive substring); when more than one is supplied they are combined with AND (intersection). The remaining filters (`name`, `statuses`, `createdAfter`/`createdBefore`) apply on top.
      * Search users
      */
     searchUsers(requestParameters: SearchUsersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CursorPageResponseServerUserResponse>;
@@ -276,7 +276,7 @@ export interface ServerUsersApiInterface {
     updateUserMetadataRequestOpts(requestParameters: UpdateUserMetadataOperationRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * Deep-merges into any of the three metadata bags. Each bag is tri-state: omit the key to leave the bag unchanged, or send an object to deep-merge into the existing bag (a key set to null removes it). The merged result is capped at 512 bytes for `publicMetadata`/`unsafeMetadata` and 4096 bytes for `privateMetadata`.
+     * Deep-merges into any of the three metadata bags. Each bag is tri-state: omit the key to leave the bag unchanged, or send an object to deep-merge into the existing bag (a key set to null removes it). The merged metadata is capped at 8 KB total across `publicMetadata`, `privateMetadata`, and `unsafeMetadata` combined (no per-bag limit).
      * @summary Update user metadata
      * @param {string} userId Identifier of the user to update.
      * @param {UpdateUserMetadataRequest} updateUserMetadataRequest 
@@ -287,7 +287,7 @@ export interface ServerUsersApiInterface {
     updateUserMetadataRaw(requestParameters: UpdateUserMetadataOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ServerUserResponse>>;
 
     /**
-     * Deep-merges into any of the three metadata bags. Each bag is tri-state: omit the key to leave the bag unchanged, or send an object to deep-merge into the existing bag (a key set to null removes it). The merged result is capped at 512 bytes for `publicMetadata`/`unsafeMetadata` and 4096 bytes for `privateMetadata`.
+     * Deep-merges into any of the three metadata bags. Each bag is tri-state: omit the key to leave the bag unchanged, or send an object to deep-merge into the existing bag (a key set to null removes it). The merged metadata is capped at 8 KB total across `publicMetadata`, `privateMetadata`, and `unsafeMetadata` combined (no per-bag limit).
      * Update user metadata
      */
     updateUserMetadata(requestParameters: UpdateUserMetadataOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ServerUserResponse>;
@@ -559,7 +559,7 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
     }
 
     /**
-     * Returns a cursor-paginated page of end-users in the environment matching the optional filters. Filters use the same tri-state PATCH semantics as `UpdateUserRequest`: omit a field to skip that filter, send a value to require it, send null to require null. Uses POST so the filter body can be sent without URL-encoding.
+     * Returns a cursor-paginated page of end-users in the environment matching the optional filters. Uses POST so the filter body can be sent without URL-encoding. Three id-selectors resolve users to a set of ids (`userIds`, the explicit batch-by-id lookup; `emailAddresses`, exact and case-insensitive; `email`, a case-insensitive substring); when more than one is supplied they are combined with AND (intersection). The remaining filters (`name`, `statuses`, `createdAfter`/`createdBefore`) apply on top.
      * Search users
      */
     async searchUsersRaw(requestParameters: SearchUsersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CursorPageResponseServerUserResponse>> {
@@ -570,7 +570,7 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
     }
 
     /**
-     * Returns a cursor-paginated page of end-users in the environment matching the optional filters. Filters use the same tri-state PATCH semantics as `UpdateUserRequest`: omit a field to skip that filter, send a value to require it, send null to require null. Uses POST so the filter body can be sent without URL-encoding.
+     * Returns a cursor-paginated page of end-users in the environment matching the optional filters. Uses POST so the filter body can be sent without URL-encoding. Three id-selectors resolve users to a set of ids (`userIds`, the explicit batch-by-id lookup; `emailAddresses`, exact and case-insensitive; `email`, a case-insensitive substring); when more than one is supplied they are combined with AND (intersection). The remaining filters (`name`, `statuses`, `createdAfter`/`createdBefore`) apply on top.
      * Search users
      */
     async searchUsers(requestParameters: SearchUsersRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CursorPageResponseServerUserResponse> {
@@ -744,7 +744,7 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
     }
 
     /**
-     * Deep-merges into any of the three metadata bags. Each bag is tri-state: omit the key to leave the bag unchanged, or send an object to deep-merge into the existing bag (a key set to null removes it). The merged result is capped at 512 bytes for `publicMetadata`/`unsafeMetadata` and 4096 bytes for `privateMetadata`.
+     * Deep-merges into any of the three metadata bags. Each bag is tri-state: omit the key to leave the bag unchanged, or send an object to deep-merge into the existing bag (a key set to null removes it). The merged metadata is capped at 8 KB total across `publicMetadata`, `privateMetadata`, and `unsafeMetadata` combined (no per-bag limit).
      * Update user metadata
      */
     async updateUserMetadataRaw(requestParameters: UpdateUserMetadataOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ServerUserResponse>> {
@@ -755,7 +755,7 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
     }
 
     /**
-     * Deep-merges into any of the three metadata bags. Each bag is tri-state: omit the key to leave the bag unchanged, or send an object to deep-merge into the existing bag (a key set to null removes it). The merged result is capped at 512 bytes for `publicMetadata`/`unsafeMetadata` and 4096 bytes for `privateMetadata`.
+     * Deep-merges into any of the three metadata bags. Each bag is tri-state: omit the key to leave the bag unchanged, or send an object to deep-merge into the existing bag (a key set to null removes it). The merged metadata is capped at 8 KB total across `publicMetadata`, `privateMetadata`, and `unsafeMetadata` combined (no per-bag limit).
      * Update user metadata
      */
     async updateUserMetadata(requestParameters: UpdateUserMetadataOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ServerUserResponse> {

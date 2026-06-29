@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * Optional filter body for `POST /users/search`. Every field is tri-state: omit to skip that filter, send a value to require it. Fields whose inner type is nullable (currently `name`, `email`) additionally accept JSON null to filter for users where that column is null; the non-nullable `statuses` field rejects null.
+ * Optional filter body for `POST /users/search`. Every field is tri-state: omit to skip that filter, send a value to apply it. The three id-selectors (`userIds`, `emailAddresses`, `email`) resolve users to a set of ids and, when more than one is supplied, are combined with AND (intersection); a supplied id-selector whose resolved set is empty returns an empty page. `name` additionally accepts JSON null to match users with no name; an explicit null or blank `email` contributes no restriction; the non-nullable `statuses` field rejects null.
  * @export
  * @interface ServerUserSearchRequest
  */
@@ -26,7 +26,19 @@ export interface ServerUserSearchRequest {
      */
     name?: string | null;
     /**
-     * Filter by primary email (case-insensitive substring match). Send null to require users with no email.
+     * Restrict to these user ids (the explicit batch-by-id lookup), at most 100. AND-combined with the other id-selectors; an empty list returns an empty page.
+     * @type {Array<string>}
+     * @memberof ServerUserSearchRequest
+     */
+    userIds?: Array<string>;
+    /**
+     * Resolve users by exact (case-insensitive) email address (one or more, at most 100). Unlike `email`, never matches a superstring. AND-combined with the other id-selectors; an empty list, or addresses matching nobody, returns an empty page.
+     * @type {Array<string>}
+     * @memberof ServerUserSearchRequest
+     */
+    emailAddresses?: Array<string>;
+    /**
+     * Filter by primary email (case-insensitive substring match). AND-combined with the other id-selectors. An explicit null or blank value contributes no restriction.
      * @type {string}
      * @memberof ServerUserSearchRequest
      */
@@ -81,6 +93,8 @@ export function ServerUserSearchRequestFromJSONTyped(json: any, ignoreDiscrimina
     return {
         
         'name': json['name'] == null ? undefined : json['name'],
+        'userIds': json['userIds'] == null ? undefined : json['userIds'],
+        'emailAddresses': json['emailAddresses'] == null ? undefined : json['emailAddresses'],
         'email': json['email'] == null ? undefined : json['email'],
         'statuses': json['statuses'] == null ? undefined : new Set(json['statuses']),
         'createdAfter': json['createdAfter'] == null ? undefined : (new Date(json['createdAfter'])),
@@ -100,6 +114,8 @@ export function ServerUserSearchRequestToJSONTyped(value?: ServerUserSearchReque
     return {
         
         'name': value['name'],
+        'userIds': value['userIds'],
+        'emailAddresses': value['emailAddresses'],
         'email': value['email'],
         'statuses': value['statuses'] == null ? undefined : Array.from(value['statuses'] as Set<any>),
         'createdAfter': value['createdAfter'] == null ? value['createdAfter'] : value['createdAfter'].toISOString(),
