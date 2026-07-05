@@ -51,7 +51,7 @@ export interface ServerImpersonationApiInterface {
     mintImpersonationTokenRequestOpts(requestParameters: MintImpersonationTokenRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * Creates a single-use, short-lived impersonation token for the target user, attributed to `actorUserId`. Redeem it via `POST /_torii/auth/session/impersonate` to obtain a session and access token as the target user. Counts against the same per-period impersonation quota and usage ledger as the dashboard.
+     * Creates a single-use, short-lived impersonation token for the target user, attributed to `actorUserId`. Redeem it programmatically via `POST /_torii/auth/session/impersonate` (access token in the body), or hand the returned `url` to an operator to open in a browser (establishes the session and redirects to the landing URL). Counts against the same per-period impersonation quota and usage ledger as the dashboard.
      * @summary Mint an impersonation token
      * @param {string} userId The user to impersonate.
      * @param {ServerImpersonationTokenRequest} serverImpersonationTokenRequest 
@@ -62,7 +62,7 @@ export interface ServerImpersonationApiInterface {
     mintImpersonationTokenRaw(requestParameters: MintImpersonationTokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ServerImpersonationTokenResponse>>;
 
     /**
-     * Creates a single-use, short-lived impersonation token for the target user, attributed to `actorUserId`. Redeem it via `POST /_torii/auth/session/impersonate` to obtain a session and access token as the target user. Counts against the same per-period impersonation quota and usage ledger as the dashboard.
+     * Creates a single-use, short-lived impersonation token for the target user, attributed to `actorUserId`. Redeem it programmatically via `POST /_torii/auth/session/impersonate` (access token in the body), or hand the returned `url` to an operator to open in a browser (establishes the session and redirects to the landing URL). Counts against the same per-period impersonation quota and usage ledger as the dashboard.
      * Mint an impersonation token
      */
     mintImpersonationToken(requestParameters: MintImpersonationTokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ServerImpersonationTokenResponse>;
@@ -120,7 +120,7 @@ export class ServerImpersonationApi extends runtime.BaseAPI implements ServerImp
     }
 
     /**
-     * Creates a single-use, short-lived impersonation token for the target user, attributed to `actorUserId`. Redeem it via `POST /_torii/auth/session/impersonate` to obtain a session and access token as the target user. Counts against the same per-period impersonation quota and usage ledger as the dashboard.
+     * Creates a single-use, short-lived impersonation token for the target user, attributed to `actorUserId`. Redeem it programmatically via `POST /_torii/auth/session/impersonate` (access token in the body), or hand the returned `url` to an operator to open in a browser (establishes the session and redirects to the landing URL). Counts against the same per-period impersonation quota and usage ledger as the dashboard.
      * Mint an impersonation token
      */
     async mintImpersonationTokenRaw(requestParameters: MintImpersonationTokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ServerImpersonationTokenResponse>> {
@@ -131,7 +131,7 @@ export class ServerImpersonationApi extends runtime.BaseAPI implements ServerImp
     }
 
     /**
-     * Creates a single-use, short-lived impersonation token for the target user, attributed to `actorUserId`. Redeem it via `POST /_torii/auth/session/impersonate` to obtain a session and access token as the target user. Counts against the same per-period impersonation quota and usage ledger as the dashboard.
+     * Creates a single-use, short-lived impersonation token for the target user, attributed to `actorUserId`. Redeem it programmatically via `POST /_torii/auth/session/impersonate` (access token in the body), or hand the returned `url` to an operator to open in a browser (establishes the session and redirects to the landing URL). Counts against the same per-period impersonation quota and usage ledger as the dashboard.
      * Mint an impersonation token
      */
     async mintImpersonationToken(requestParameters: MintImpersonationTokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ServerImpersonationTokenResponse> {

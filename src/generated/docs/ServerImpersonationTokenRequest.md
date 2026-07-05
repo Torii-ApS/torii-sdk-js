@@ -9,6 +9,7 @@ Name | Type
 ------------ | -------------
 `actorUserId` | string
 `reason` | string
+`redirectUrl` | string
 `expiresInSeconds` | number
 
 ## Example
@@ -20,7 +21,8 @@ import type { ServerImpersonationTokenRequest } from ''
 const example = {
   "actorUserId": 01931a73-8b00-7000-8000-000000000000,
   "reason": Investigating support ticket #4821,
-  "expiresInSeconds": 120,
+  "redirectUrl": https://app.example.com/dashboard,
+  "expiresInSeconds": 600,
 } satisfies ServerImpersonationTokenRequest
 
 console.log(example)

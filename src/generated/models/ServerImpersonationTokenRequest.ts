@@ -32,7 +32,13 @@ export interface ServerImpersonationTokenRequest {
      */
     reason: string;
     /**
-     * Optional token lifetime in seconds, 60..600. Omit for the 60s default.
+     * Optional post-redeem landing URL for the `url` redeem link; its origin must be in the environment's allowed origins. Omit to default to the environment's first non-wildcard allowed origin.
+     * @type {string}
+     * @memberof ServerImpersonationTokenRequest
+     */
+    redirectUrl?: string | null;
+    /**
+     * Optional token lifetime in seconds, 60..600. Omit for the 600s default.
      * @type {number}
      * @memberof ServerImpersonationTokenRequest
      */
@@ -60,6 +66,7 @@ export function ServerImpersonationTokenRequestFromJSONTyped(json: any, ignoreDi
         
         'actorUserId': json['actorUserId'],
         'reason': json['reason'],
+        'redirectUrl': json['redirectUrl'] == null ? undefined : json['redirectUrl'],
         'expiresInSeconds': json['expiresInSeconds'] == null ? undefined : json['expiresInSeconds'],
     };
 }
@@ -77,6 +84,7 @@ export function ServerImpersonationTokenRequestToJSONTyped(value?: ServerImperso
         
         'actorUserId': value['actorUserId'],
         'reason': value['reason'],
+        'redirectUrl': value['redirectUrl'],
         'expiresInSeconds': value['expiresInSeconds'],
     };
 }

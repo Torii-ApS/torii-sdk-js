@@ -9,6 +9,7 @@ Name | Type
 ------------ | -------------
 `token` | string
 `expiresInSeconds` | number
+`url` | string
 
 ## Example
 
@@ -18,7 +19,8 @@ import type { ServerImpersonationTokenResponse } from ''
 // TODO: Update the object below with actual values
 const example = {
   "token": null,
-  "expiresInSeconds": 60,
+  "expiresInSeconds": 600,
+  "url": https://auth.example.com/_torii/auth/session/impersonate?token=…,
 } satisfies ServerImpersonationTokenResponse
 
 console.log(example)

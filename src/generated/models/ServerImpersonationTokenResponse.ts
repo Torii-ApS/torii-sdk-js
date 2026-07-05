@@ -20,7 +20,7 @@ import { mapValues } from '../runtime';
  */
 export interface ServerImpersonationTokenResponse {
     /**
-     * The single-use token. Redeem via POST /_torii/auth/session/impersonate.
+     * The single-use token. Redeem via POST /_torii/auth/session/impersonate, or hand the ready-to-use `url` to an operator.
      * @type {string}
      * @memberof ServerImpersonationTokenResponse
      */
@@ -31,6 +31,12 @@ export interface ServerImpersonationTokenResponse {
      * @memberof ServerImpersonationTokenResponse
      */
     expiresInSeconds: number;
+    /**
+     * A ready-to-use, navigable redeem link on the environment's Frontend API host. Opening it in a browser establishes the impersonated session and redirects to the landing URL. Backed by the same single-use token. Null when no landing URL could be resolved (no `redirectUrl` given and the environment has no concrete allowed origin) — redeem the `token` via POST instead.
+     * @type {string}
+     * @memberof ServerImpersonationTokenResponse
+     */
+    url?: string | null;
 }
 
 /**
@@ -54,6 +60,7 @@ export function ServerImpersonationTokenResponseFromJSONTyped(json: any, ignoreD
         
         'token': json['token'],
         'expiresInSeconds': json['expiresInSeconds'],
+        'url': json['url'] == null ? undefined : json['url'],
     };
 }
 
@@ -70,6 +77,7 @@ export function ServerImpersonationTokenResponseToJSONTyped(value?: ServerImpers
         
         'token': value['token'],
         'expiresInSeconds': value['expiresInSeconds'],
+        'url': value['url'],
     };
 }
 
