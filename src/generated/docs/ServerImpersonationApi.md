@@ -14,7 +14,7 @@ All URIs are relative to *https://api.torii.so*
 
 Mint an impersonation token
 
-Creates a single-use, short-lived impersonation token for the target user, attributed to &#x60;actorUserId&#x60;. Redeem it via &#x60;POST /_torii/auth/session/impersonate&#x60; to obtain a session and access token as the target user. Counts against the same per-period impersonation quota and usage ledger as the dashboard.
+Creates a single-use, short-lived impersonation token for the target user, attributed to &#x60;actorUserId&#x60;. Redeem it programmatically via &#x60;POST /_torii/auth/session/impersonate&#x60; (access token in the body), or hand the returned &#x60;url&#x60; to an operator to open in a browser (establishes the session and redirects to the landing URL). Counts against the same per-period impersonation quota and usage ledger as the dashboard.
 
 ### Example
 
@@ -77,8 +77,8 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | The minted token and its lifetime. |  -  |
-| **400** | Deleted target, or &#x60;expiresInSeconds&#x60; out of the 60..600 range. |  -  |
+| **200** | The minted token, its lifetime, and (when a landing URL resolves) a ready-to-use redeem URL. |  -  |
+| **400** | Deleted target, &#x60;expiresInSeconds&#x60; out of the 60..600 range, or &#x60;redirectUrl&#x60; missing/malformed/not in the environment\&#39;s allowed origins. |  -  |
 | **401** | Missing or invalid secret key. |  -  |
 | **402** | Plan does not include impersonation, or the per-period quota is exhausted. |  -  |
 | **403** | Target or actor is in another environment, or impersonation is disabled for this environment. |  -  |
