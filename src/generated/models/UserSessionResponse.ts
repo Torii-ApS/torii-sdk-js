@@ -68,7 +68,7 @@ export interface UserSessionResponse {
      */
     lastUsedAt: Date;
     /**
-     * Active organization pinned to this session (`org_id` claim on re-mint).
+     * Active organization pinned to this session (the `o` claim on re-mint).
      * @type {string}
      * @memberof UserSessionResponse
      */
