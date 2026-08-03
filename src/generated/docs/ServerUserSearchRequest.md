@@ -14,6 +14,7 @@ Name | Type
 `statuses` | Set&lt;string&gt;
 `createdAfter` | Date
 `createdBefore` | Date
+`organizationId` | string
 
 ## Example
 
@@ -29,6 +30,7 @@ const example = {
   "statuses": null,
   "createdAfter": 2026-01-01T00:00:00Z,
   "createdBefore": 2026-12-31T23:59:59Z,
+  "organizationId": 01931a73-8b00-7000-8000-000000000000,
 } satisfies ServerUserSearchRequest
 
 console.log(example)
