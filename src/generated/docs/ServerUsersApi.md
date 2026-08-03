@@ -8,6 +8,7 @@ All URIs are relative to *https://api.torii.so*
 | [**createUser**](ServerUsersApi.md#createuseroperation) | **POST** /api/server/v1/users | Create user |
 | [**deleteUser**](ServerUsersApi.md#deleteuser) | **DELETE** /api/server/v1/users/{userId} | Delete user |
 | [**getUser**](ServerUsersApi.md#getuser) | **GET** /api/server/v1/users/{userId} | Get user |
+| [**listUserOrganizations**](ServerUsersApi.md#listuserorganizations) | **GET** /api/server/v1/users/{userId}/organizations | List a user\&#39;s organizations |
 | [**searchUsers**](ServerUsersApi.md#searchusers) | **POST** /api/server/v1/users/search | Search users |
 | [**unbanUser**](ServerUsersApi.md#unbanuser) | **POST** /api/server/v1/users/{userId}/unban | Unban user |
 | [**updateUser**](ServerUsersApi.md#updateuseroperation) | **PATCH** /api/server/v1/users/{userId} | Update user |
@@ -307,6 +308,85 @@ example().catch(console.error);
 | **401** | Missing or invalid secret key. |  -  |
 | **403** | User belongs to a different environment. |  -  |
 | **404** | No user with this id. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## listUserOrganizations
+
+> CursorPageResponseServerUserOrganizationResponse listUserOrganizations(userId, limit, cursor)
+
+List a user\&#39;s organizations
+
+Returns a cursor-paginated page of the organizations this user is a member of, with the user\&#39;s role in each and that membership\&#39;s metadata bags. The mirror image of listing an organization\&#39;s members. Note the bags are the MEMBERSHIP\&#39;s, not the organization\&#39;s: read the organization itself for those.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  ServerUsersApi,
+} from '';
+import type { ListUserOrganizationsRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new ServerUsersApi(config);
+
+  const body = {
+    // string | Identifier of the user whose organizations to list.
+    userId: 01931a73-8b00-7000-8000-000000000000,
+    // number | Maximum number of items in the returned page (default 20). (optional)
+    limit: 50,
+    // string | Opaque cursor returned by the previous page\'s `nextCursor`. Omit to fetch the first page. (optional)
+    cursor: 01931a73-8b00-7000-8000-000000000000,
+  } satisfies ListUserOrganizationsRequest;
+
+  try {
+    const data = await api.listUserOrganizations(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **userId** | `string` | Identifier of the user whose organizations to list. | [Defaults to `undefined`] |
+| **limit** | `number` | Maximum number of items in the returned page (default 20). | [Optional] [Defaults to `20`] |
+| **cursor** | `string` | Opaque cursor returned by the previous page\&#39;s &#x60;nextCursor&#x60;. Omit to fetch the first page. | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**CursorPageResponseServerUserOrganizationResponse**](CursorPageResponseServerUserOrganizationResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`, `application/problem+json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Page of memberships (empty when the user belongs to no organization). |  -  |
+| **401** | Missing or invalid secret key. |  -  |
+| **403** | The user belongs to a different environment, or no user has this id: the two are deliberately indistinguishable so a key cannot probe for foreign user ids. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

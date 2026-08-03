@@ -19,6 +19,11 @@ import {
     CreateUserRequestToJSON,
 } from '../models/CreateUserRequest';
 import {
+    type CursorPageResponseServerUserOrganizationResponse,
+    CursorPageResponseServerUserOrganizationResponseFromJSON,
+    CursorPageResponseServerUserOrganizationResponseToJSON,
+} from '../models/CursorPageResponseServerUserOrganizationResponse';
+import {
     type CursorPageResponseServerUserResponse,
     CursorPageResponseServerUserResponseFromJSON,
     CursorPageResponseServerUserResponseToJSON,
@@ -63,6 +68,12 @@ export interface DeleteUserRequest {
 
 export interface GetUserRequest {
     userId: string;
+}
+
+export interface ListUserOrganizationsRequest {
+    userId: string;
+    limit?: number;
+    cursor?: string;
 }
 
 export interface SearchUsersRequest {
@@ -187,6 +198,34 @@ export interface ServerUsersApiInterface {
      * Get user
      */
     getUser(requestParameters: GetUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ServerUserResponse>;
+
+    /**
+     * Creates request options for listUserOrganizations without sending the request
+     * @param {string} userId Identifier of the user whose organizations to list.
+     * @param {number} [limit] Maximum number of items in the returned page (default 20).
+     * @param {string} [cursor] Opaque cursor returned by the previous page\&#39;s &#x60;nextCursor&#x60;. Omit to fetch the first page.
+     * @throws {RequiredError}
+     * @memberof ServerUsersApiInterface
+     */
+    listUserOrganizationsRequestOpts(requestParameters: ListUserOrganizationsRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns a cursor-paginated page of the organizations this user is a member of, with the user\'s role in each and that membership\'s metadata bags. The mirror image of listing an organization\'s members. Note the bags are the MEMBERSHIP\'s, not the organization\'s: read the organization itself for those.
+     * @summary List a user\'s organizations
+     * @param {string} userId Identifier of the user whose organizations to list.
+     * @param {number} [limit] Maximum number of items in the returned page (default 20).
+     * @param {string} [cursor] Opaque cursor returned by the previous page\&#39;s &#x60;nextCursor&#x60;. Omit to fetch the first page.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ServerUsersApiInterface
+     */
+    listUserOrganizationsRaw(requestParameters: ListUserOrganizationsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CursorPageResponseServerUserOrganizationResponse>>;
+
+    /**
+     * Returns a cursor-paginated page of the organizations this user is a member of, with the user\'s role in each and that membership\'s metadata bags. The mirror image of listing an organization\'s members. Note the bags are the MEMBERSHIP\'s, not the organization\'s: read the organization itself for those.
+     * List a user\'s organizations
+     */
+    listUserOrganizations(requestParameters: ListUserOrganizationsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CursorPageResponseServerUserOrganizationResponse>;
 
     /**
      * Creates request options for searchUsers without sending the request
@@ -517,6 +556,69 @@ export class ServerUsersApi extends runtime.BaseAPI implements ServerUsersApiInt
      */
     async getUser(requestParameters: GetUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ServerUserResponse> {
         const response = await this.getUserRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for listUserOrganizations without sending the request
+     */
+    async listUserOrganizationsRequestOpts(requestParameters: ListUserOrganizationsRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['userId'] == null) {
+            throw new runtime.RequiredError(
+                'userId',
+                'Required parameter "userId" was null or undefined when calling listUserOrganizations().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
+        if (requestParameters['cursor'] != null) {
+            queryParameters['cursor'] = requestParameters['cursor'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/api/server/v1/users/{userId}/organizations`;
+        urlPath = urlPath.replace('{userId}', encodeURIComponent(String(requestParameters['userId'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Returns a cursor-paginated page of the organizations this user is a member of, with the user\'s role in each and that membership\'s metadata bags. The mirror image of listing an organization\'s members. Note the bags are the MEMBERSHIP\'s, not the organization\'s: read the organization itself for those.
+     * List a user\'s organizations
+     */
+    async listUserOrganizationsRaw(requestParameters: ListUserOrganizationsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CursorPageResponseServerUserOrganizationResponse>> {
+        const requestOptions = await this.listUserOrganizationsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => CursorPageResponseServerUserOrganizationResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Returns a cursor-paginated page of the organizations this user is a member of, with the user\'s role in each and that membership\'s metadata bags. The mirror image of listing an organization\'s members. Note the bags are the MEMBERSHIP\'s, not the organization\'s: read the organization itself for those.
+     * List a user\'s organizations
+     */
+    async listUserOrganizations(requestParameters: ListUserOrganizationsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CursorPageResponseServerUserOrganizationResponse> {
+        const response = await this.listUserOrganizationsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

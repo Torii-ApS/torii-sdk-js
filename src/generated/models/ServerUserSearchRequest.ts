@@ -61,6 +61,12 @@ export interface ServerUserSearchRequest {
      * @memberof ServerUserSearchRequest
      */
     createdBefore?: Date | null;
+    /**
+     * Only return members of this organization. An organization from another environment matches nobody. Not an id-selector: it is applied as a membership semi-join, so it is never capped and always ANDs with the rest of the filters.
+     * @type {string}
+     * @memberof ServerUserSearchRequest
+     */
+    organizationId?: string | null;
 }
 
 
@@ -99,6 +105,7 @@ export function ServerUserSearchRequestFromJSONTyped(json: any, ignoreDiscrimina
         'statuses': json['statuses'] == null ? undefined : new Set(json['statuses']),
         'createdAfter': json['createdAfter'] == null ? undefined : (new Date(json['createdAfter'])),
         'createdBefore': json['createdBefore'] == null ? undefined : (new Date(json['createdBefore'])),
+        'organizationId': json['organizationId'] == null ? undefined : json['organizationId'],
     };
 }
 
@@ -120,6 +127,7 @@ export function ServerUserSearchRequestToJSONTyped(value?: ServerUserSearchReque
         'statuses': value['statuses'] == null ? undefined : Array.from(value['statuses'] as Set<any>),
         'createdAfter': value['createdAfter'] == null ? value['createdAfter'] : value['createdAfter'].toISOString(),
         'createdBefore': value['createdBefore'] == null ? value['createdBefore'] : value['createdBefore'].toISOString(),
+        'organizationId': value['organizationId'],
     };
 }
 
