@@ -1,6 +1,6 @@
 # InvitationsApi
 
-All URIs are relative to *https://api.torii.so*
+All URIs are relative to *https://api.toriiauth.eu*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
@@ -70,13 +70,17 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: `application/json`
-- **Accept**: `application/json`
+- **Accept**: `application/json`, `application/problem+json`
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | OK |  -  |
+| **201** | The created invitation. The email has been sent. |  -  |
+| **400** | Invalid body, metadata over the 8KB budget, or the environment has no sign-up URL configured. |  -  |
+| **401** | Missing or invalid secret key. |  -  |
+| **409** | This email already has an account in the environment. |  -  |
+| **429** | The environment\&#39;s invitation rate limit is exhausted. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

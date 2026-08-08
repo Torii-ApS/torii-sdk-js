@@ -1,6 +1,6 @@
 # ServerImpersonationApi
 
-All URIs are relative to *https://api.torii.so*
+All URIs are relative to *https://api.toriiauth.eu*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
@@ -78,7 +78,7 @@ example().catch(console.error);
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | The minted token, its lifetime, and (when a landing URL resolves) a ready-to-use redeem URL. |  -  |
-| **400** | Deleted target, &#x60;expiresInSeconds&#x60; out of the 60..600 range, or &#x60;redirectUrl&#x60; missing/malformed/not in the environment\&#39;s allowed origins. |  -  |
+| **400** | Deleted target, &#x60;expiresInSeconds&#x60; out of the 60..600 range, or &#x60;redirectUrl&#x60; malformed / not in the environment\&#39;s allowed origins. |  -  |
 | **401** | Missing or invalid secret key. |  -  |
 | **402** | Plan does not include impersonation, or the per-period quota is exhausted. |  -  |
 | **403** | Target or actor is in another environment, or impersonation is disabled for this environment. |  -  |

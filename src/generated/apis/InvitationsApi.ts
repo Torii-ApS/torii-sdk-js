@@ -28,6 +28,11 @@ import {
     EnvironmentInvitationResponseFromJSON,
     EnvironmentInvitationResponseToJSON,
 } from '../models/EnvironmentInvitationResponse';
+import {
+    type ProblemDetail,
+    ProblemDetailFromJSON,
+    ProblemDetailToJSON,
+} from '../models/ProblemDetail';
 
 export interface CreateRequest {
     createEnvironmentInvitationServerRequest: CreateEnvironmentInvitationServerRequest;
