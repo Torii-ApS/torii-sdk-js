@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-export const BASE_PATH = "https://api.torii.so".replace(/\/+$/, "");
+export const BASE_PATH = "https://api.toriiauth.eu".replace(/\/+$/, "");
 
 export interface ConfigurationParameters {
     basePath?: string; // override base path

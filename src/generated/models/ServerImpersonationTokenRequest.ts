@@ -32,7 +32,7 @@ export interface ServerImpersonationTokenRequest {
      */
     reason: string;
     /**
-     * Optional post-redeem landing URL for the `url` redeem link; its origin must be in the environment's allowed origins. Omit to default to the environment's first non-wildcard allowed origin.
+     * Optional post-redeem landing URL for the `url` redeem link; its origin must be in the environment's allowed origins. Unlike the dashboard link this plane appends nothing to it, so a fragment is fine. Omit to use the environment's configured impersonation landing URL.
      * @type {string}
      * @memberof ServerImpersonationTokenRequest
      */
