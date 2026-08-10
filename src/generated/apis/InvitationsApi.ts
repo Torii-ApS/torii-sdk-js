@@ -24,6 +24,11 @@ import {
     CursorPageResponseEnvironmentInvitationResponseToJSON,
 } from '../models/CursorPageResponseEnvironmentInvitationResponse';
 import {
+    type EnvironmentInvitationDetailResponse,
+    EnvironmentInvitationDetailResponseFromJSON,
+    EnvironmentInvitationDetailResponseToJSON,
+} from '../models/EnvironmentInvitationDetailResponse';
+import {
     type EnvironmentInvitationResponse,
     EnvironmentInvitationResponseFromJSON,
     EnvironmentInvitationResponseToJSON,
@@ -33,6 +38,11 @@ import {
     ProblemDetailFromJSON,
     ProblemDetailToJSON,
 } from '../models/ProblemDetail';
+import {
+    type UpdateEnvironmentInvitationMetadataRequest,
+    UpdateEnvironmentInvitationMetadataRequestFromJSON,
+    UpdateEnvironmentInvitationMetadataRequestToJSON,
+} from '../models/UpdateEnvironmentInvitationMetadataRequest';
 
 export interface CreateRequest {
     createEnvironmentInvitationServerRequest: CreateEnvironmentInvitationServerRequest;
@@ -55,6 +65,11 @@ export interface ResendRequest {
 
 export interface RevokeRequest {
     invitationId: string;
+}
+
+export interface UpdateMetadataRequest {
+    invitationId: string;
+    updateEnvironmentInvitationMetadataRequest: UpdateEnvironmentInvitationMetadataRequest;
 }
 
 /**
@@ -97,18 +112,18 @@ export interface InvitationsApiInterface {
 
     /**
      * 
-     * @summary Get an invitation by id
+     * @summary Get an invitation by id, including both metadata bags
      * @param {string} invitationId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof InvitationsApiInterface
      */
-    getRaw(requestParameters: GetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentInvitationResponse>>;
+    getRaw(requestParameters: GetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentInvitationDetailResponse>>;
 
     /**
-     * Get an invitation by id
+     * Get an invitation by id, including both metadata bags
      */
-    get(requestParameters: GetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EnvironmentInvitationResponse>;
+    get(requestParameters: GetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EnvironmentInvitationDetailResponse>;
 
     /**
      * Creates request options for list1 without sending the request
@@ -184,6 +199,31 @@ export interface InvitationsApiInterface {
      * Revoke a pending invitation
      */
     revoke(requestParameters: RevokeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+
+    /**
+     * Creates request options for updateMetadata without sending the request
+     * @param {string} invitationId 
+     * @param {UpdateEnvironmentInvitationMetadataRequest} updateEnvironmentInvitationMetadataRequest 
+     * @throws {RequiredError}
+     * @memberof InvitationsApiInterface
+     */
+    updateMetadataRequestOpts(requestParameters: UpdateMetadataRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * 
+     * @summary Deep-merge metadata into a pending invitation
+     * @param {string} invitationId 
+     * @param {UpdateEnvironmentInvitationMetadataRequest} updateEnvironmentInvitationMetadataRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InvitationsApiInterface
+     */
+    updateMetadataRaw(requestParameters: UpdateMetadataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentInvitationDetailResponse>>;
+
+    /**
+     * Deep-merge metadata into a pending invitation
+     */
+    updateMetadata(requestParameters: UpdateMetadataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EnvironmentInvitationDetailResponse>;
 
 }
 
@@ -283,19 +323,19 @@ export class InvitationsApi extends runtime.BaseAPI implements InvitationsApiInt
     }
 
     /**
-     * Get an invitation by id
+     * Get an invitation by id, including both metadata bags
      */
-    async getRaw(requestParameters: GetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentInvitationResponse>> {
+    async getRaw(requestParameters: GetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentInvitationDetailResponse>> {
         const requestOptions = await this.getRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EnvironmentInvitationResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => EnvironmentInvitationDetailResponseFromJSON(jsonValue));
     }
 
     /**
-     * Get an invitation by id
+     * Get an invitation by id, including both metadata bags
      */
-    async get(requestParameters: GetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EnvironmentInvitationResponse> {
+    async get(requestParameters: GetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EnvironmentInvitationDetailResponse> {
         const response = await this.getRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -464,6 +504,69 @@ export class InvitationsApi extends runtime.BaseAPI implements InvitationsApiInt
      */
     async revoke(requestParameters: RevokeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.revokeRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * Creates request options for updateMetadata without sending the request
+     */
+    async updateMetadataRequestOpts(requestParameters: UpdateMetadataRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['invitationId'] == null) {
+            throw new runtime.RequiredError(
+                'invitationId',
+                'Required parameter "invitationId" was null or undefined when calling updateMetadata().'
+            );
+        }
+
+        if (requestParameters['updateEnvironmentInvitationMetadataRequest'] == null) {
+            throw new runtime.RequiredError(
+                'updateEnvironmentInvitationMetadataRequest',
+                'Required parameter "updateEnvironmentInvitationMetadataRequest" was null or undefined when calling updateMetadata().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/api/server/v1/invitations/{invitationId}`;
+        urlPath = urlPath.replace('{invitationId}', encodeURIComponent(String(requestParameters['invitationId'])));
+
+        return {
+            path: urlPath,
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpdateEnvironmentInvitationMetadataRequestToJSON(requestParameters['updateEnvironmentInvitationMetadataRequest']),
+        };
+    }
+
+    /**
+     * Deep-merge metadata into a pending invitation
+     */
+    async updateMetadataRaw(requestParameters: UpdateMetadataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentInvitationDetailResponse>> {
+        const requestOptions = await this.updateMetadataRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => EnvironmentInvitationDetailResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Deep-merge metadata into a pending invitation
+     */
+    async updateMetadata(requestParameters: UpdateMetadataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EnvironmentInvitationDetailResponse> {
+        const response = await this.updateMetadataRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
 }
