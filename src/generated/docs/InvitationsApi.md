@@ -5,10 +5,11 @@ All URIs are relative to *https://api.toriiauth.eu*
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
 | [**create**](InvitationsApi.md#create) | **POST** /api/server/v1/invitations | Create an invitation with optional pre-seeded metadata |
-| [**get**](InvitationsApi.md#get) | **GET** /api/server/v1/invitations/{invitationId} | Get an invitation by id |
+| [**get**](InvitationsApi.md#get) | **GET** /api/server/v1/invitations/{invitationId} | Get an invitation by id, including both metadata bags |
 | [**list1**](InvitationsApi.md#list1) | **GET** /api/server/v1/invitations | List invitations for this environment |
 | [**resend**](InvitationsApi.md#resend) | **POST** /api/server/v1/invitations/{invitationId}/resend | Resend a pending invitation with a fresh link |
 | [**revoke**](InvitationsApi.md#revoke) | **DELETE** /api/server/v1/invitations/{invitationId} | Revoke a pending invitation |
+| [**updateMetadata**](InvitationsApi.md#updatemetadata) | **PATCH** /api/server/v1/invitations/{invitationId} | Deep-merge metadata into a pending invitation |
 
 
 
@@ -87,9 +88,9 @@ example().catch(console.error);
 
 ## get
 
-> EnvironmentInvitationResponse get(invitationId)
+> EnvironmentInvitationDetailResponse get(invitationId)
 
-Get an invitation by id
+Get an invitation by id, including both metadata bags
 
 ### Example
 
@@ -134,7 +135,7 @@ example().catch(console.error);
 
 ### Return type
 
-[**EnvironmentInvitationResponse**](EnvironmentInvitationResponse.md)
+[**EnvironmentInvitationDetailResponse**](EnvironmentInvitationDetailResponse.md)
 
 ### Authorization
 
@@ -366,6 +367,82 @@ example().catch(console.error);
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## updateMetadata
+
+> EnvironmentInvitationDetailResponse updateMetadata(invitationId, updateEnvironmentInvitationMetadataRequest)
+
+Deep-merge metadata into a pending invitation
+
+### Example
+
+```ts
+import {
+  Configuration,
+  InvitationsApi,
+} from '';
+import type { UpdateMetadataRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new InvitationsApi(config);
+
+  const body = {
+    // string
+    invitationId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // UpdateEnvironmentInvitationMetadataRequest
+    updateEnvironmentInvitationMetadataRequest: ...,
+  } satisfies UpdateMetadataRequest;
+
+  try {
+    const data = await api.updateMetadata(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **invitationId** | `string` |  | [Defaults to `undefined`] |
+| **updateEnvironmentInvitationMetadataRequest** | [UpdateEnvironmentInvitationMetadataRequest](UpdateEnvironmentInvitationMetadataRequest.md) |  | |
+
+### Return type
+
+[**EnvironmentInvitationDetailResponse**](EnvironmentInvitationDetailResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`, `application/problem+json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | The updated invitation. |  -  |
+| **400** | Merged metadata over the 8KB budget, or a body naming neither bag. |  -  |
+| **401** | Missing or invalid secret key. |  -  |
+| **404** | No such invitation in this environment. |  -  |
+| **409** | The invitation is accepted, revoked or expired (&#x60;invitation_not_pending&#x60;, with the state on &#x60;invitationStatus&#x60;), or its state could not be resolved consistently (&#x60;invitation_patch_conflict&#x60;, a server-side fault — do not retry in a loop). |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

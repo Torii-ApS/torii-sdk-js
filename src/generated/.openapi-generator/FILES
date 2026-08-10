@@ -14,6 +14,7 @@ docs/CursorPageResponseServerOrganizationMemberResponse.md
 docs/CursorPageResponseServerOrganizationResponse.md
 docs/CursorPageResponseServerUserOrganizationResponse.md
 docs/CursorPageResponseServerUserResponse.md
+docs/EnvironmentInvitationDetailResponse.md
 docs/EnvironmentInvitationResponse.md
 docs/InvitationsApi.md
 docs/ProblemDetail.md
@@ -29,6 +30,7 @@ docs/ServerUserResponse.md
 docs/ServerUserSearchRequest.md
 docs/ServerUsersApi.md
 docs/SetAllowedOriginsRequest.md
+docs/UpdateEnvironmentInvitationMetadataRequest.md
 docs/UpdateOrganizationMetadataRequest.md
 docs/UpdateUserMetadataRequest.md
 docs/UpdateUserRequest.md
@@ -42,6 +44,7 @@ models/CursorPageResponseServerOrganizationMemberResponse.ts
 models/CursorPageResponseServerOrganizationResponse.ts
 models/CursorPageResponseServerUserOrganizationResponse.ts
 models/CursorPageResponseServerUserResponse.ts
+models/EnvironmentInvitationDetailResponse.ts
 models/EnvironmentInvitationResponse.ts
 models/ProblemDetail.ts
 models/ServerImpersonationTokenRequest.ts
@@ -52,6 +55,7 @@ models/ServerUserOrganizationResponse.ts
 models/ServerUserResponse.ts
 models/ServerUserSearchRequest.ts
 models/SetAllowedOriginsRequest.ts
+models/UpdateEnvironmentInvitationMetadataRequest.ts
 models/UpdateOrganizationMetadataRequest.ts
 models/UpdateUserMetadataRequest.ts
 models/UpdateUserRequest.ts
